@@ -12,7 +12,7 @@ const Searchbar = (props) => {
         {
             context => {
                 const options = context.searchOptions.map((option, index) => {
-                    return <li key={index} data-game-id={option.id}>{option.name}</li>
+                    return <li key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>{option.name}</li>
                 })
 
                 const inputChanges = (e) => {
