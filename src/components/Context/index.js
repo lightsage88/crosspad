@@ -29,14 +29,42 @@ export class Provider extends Component{
             this.setState(prevState => ({
               searchValue : value 
             }));
+            console.log(this.state.searchValue);
             searchDatabaseForGame();
         }
 
+        const searchDatabaseForGame = () => {
+            console.log('searchDatabase was fired');
+            axios({
+              method: "POST",
+              url: `${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
+              name,
+              id
+              `, 
+              headers: {
+                'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
+                'accept': 'application/json'
+              }
+            })
+            .then(response => {
+              console.log(response);
+              this.setState(prevState=>({
+                searchOptions: response.data
+              }));
+            })
+            .catch(error => {
+              console.error(error)
+            })
+          }
+
+
+        //This gets fired when you click on a game name
         const searchForSpecificGame = (gameID) => {
             this.setState(prevState=>({
                 gameData: {
                     ...prevState.gameData,
-                    publisherID: ''
+                    publisherID: '',
+                    involved_companies: []
                 }
             }));
             //TODO: Set up Spinners
@@ -48,7 +76,6 @@ export class Provider extends Component{
             }));
             axios({
                 method: "POST",
-                //?&filter[id][eq]=${gameID}&fields=*
                 url: `${process.env.REACT_APP_IGDB_API_URL}/games/`,
                 headers: {
                     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
@@ -67,6 +94,7 @@ export class Provider extends Component{
                 //placeholder image
                 
                 this.setState(prevState=>({
+                    
                     gameData: {
                         ...prevState.gameData,
                         aggregated_rating: response.data[0].aggregated_rating,
@@ -77,51 +105,44 @@ export class Provider extends Component{
 
                     }
                 }))
-                return response
-            })
-            .then(async(response)=>{
-              await determineCover(response);
-               (this.state.gameData.involved_companies).length >= 1 ? await determinePublisher() : console.log('nope');
-               await console.log(this.state);
+
+                determineCover(response);
+
+                if((this.state.gameData.involved_companies).length >= 1) {
+                    determinePublisher(response)
+                }
             })
             .then(()=>{
-                console.log(this.state);
+                getRelatedGamesInfo();
             })
             .catch(error => {
                 console.error(error);
             });
 
-
-        }
-
-        const determineCover =  async(response) => {
             
-            console.log('gamalon')
-            response.data[0].cover ? await seekCoverArtFromDatabase(response.data[0].cover) : this.setState(prevState=>({
-                gameData: {
-                    ...prevState.gameData,
-                    cover: 'insert placeholder image here'
-                }
-            }));
         }
 
-        //todo, determine year of release as well with game-id
 
-        const seekCoverArtFromDatabase = (coverID) => {
-            console.log('seekCoverArtFromDatabase is running to get some art for us with coverID ' + coverID);
-            axios({
+        const getRelatedGamesInfo = () => {
+            console.log(this.state);
+        }
+
+        const stateCheck = () => {
+            console.log(this.state);
+        }
+
+        const determineCover =  (response) => {
+            response.data[0].cover ? axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_IGDB_API_URL}/covers/`,
                 headers: {
                     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                     'accept': 'application/json'
                 },
-                data: `\nfields image_id, url; where game=${coverID};`
+                data: `\nfields image_id, url; where game=${response.data[0].cover};`
             })
             .then(response=>{
                 console.log(response);
-
-                
                 this.setState(prevState=>({
                     gameData: {
                         ...prevState.gameData,
@@ -131,13 +152,22 @@ export class Provider extends Component{
             })
             .catch(err =>{
                 console.error(err)
-            });
+            }) : 
+            this.setState(prevState=>({
+                gameData: {
+                    ...prevState.gameData,
+                    cover: 'insert placeholder image here'
+                }
+            }));
         }
 
-        const determinePublisher = async() => {
+        //todo, determine year of release as well with game-id
+
+
+        const determinePublisher = (response) => {
             console.log('determinePublisher running');
 
-            let companyArray = this.state.gameData.involved_companies;
+            let companyArray = response.data[0].involved_companies;
 
             if(this.state.gameData.publisherID === '') {
                 companyArray.forEach(company =>{
@@ -148,9 +178,40 @@ export class Provider extends Component{
             } else {
                 console.log('we found the publisher at the id of ' + this.state.gameData.publisherID);
             }    
+           
+        }
+
+        const sortInvolvedCompanies = (companyID, arrayLength) => {
+            axios({
+                method: "POST",
+                url: `${process.env.REACT_APP_IGDB_API_URL}/involved_companies/`,
+                headers: {
+                    'accept': 'application/json',
+                    'user-key': `${process.env.REACT_APP_IGDB_KEY}`
+                },
+                data: `\nfields publisher, company; where id = ${companyID};`
+            })
+            .then( response => {
+                console.log(response);
+                if(response.data[0].publisher || arrayLength == 1) {
+                    console.log('the sortIC found' + response.data[0].company);
+                    this.setState(prevState =>({
+                        gameData: {
+                            ...prevState.gameData,
+                            publisherID : response.data[0].company
+
+                        }
+                    }));
+                    getPublisherName(response.data[0].company);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
         }
 
         const getPublisherName = (publisherID) => {
+            console.log(publisherID);
             console.log('publisgername dfsdfsdf');
             axios({
                 method: "POST",
@@ -176,83 +237,14 @@ export class Provider extends Component{
             });
         }
 
-        const sortInvolvedCompanies = (companyID, arrayLength) => {
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_IGDB_API_URL}/involved_companies/`,
-                headers: {
-                    'accept': 'application/json',
-                    'user-key': `${process.env.REACT_APP_IGDB_KEY}`
-                },
-                data: `\nfields publisher, company; where id = ${companyID};`
-            })
-            .then( response => {
-                console.log(response);
-                if(response.data[0].publisher || arrayLength == 1) {
-                    this.setState(prevState =>({
-                        gameData: {
-                            ...prevState.gameData,
-                            publisherID : response.data[0].company
-
-                        }
-                    }))
-                    getPublisherName(response.data[0].company);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-            });
-        }
+        
 
 
         // const callAPIForPublisher = (companyID) => {
 
         // }
 
-        const searchDatabaseForGame = () => {
-            console.log('searchDatabase was fired');
-        
-        
-        //We want to start typing and have a drop down list auto populate with potential results
-        //these clickable results will allow the user to zero in on exactly what they want.
-        
-        //We will need the:
-        //id
-        //name
-        
-        
-        
-        
-        
-            axios({
-              method: "POST",
-              url: `${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
-              name,
-              id
-              `, 
-              headers: {
-                'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-                'accept': 'application/json'
-              }
-            })
-            .then(response => {
-              console.log(response);
-              this.setState(prevState=>({
-                searchOptions: response.data
-              }));
-              //We will make a call to /covers to get a url for the image of the game so
-              //we can add it to state
-              // this.getCoverURLFromDatabase(coverID);
-              //We will do a call for each element in the 'involved_companies' array
-              //until we find the one where 'publisher' evaluates to TRUE
-        
-                //then we will get the id from the TRUE involved_company and make a call
-                //to /companies
-            })
-            .catch(error => {
-              console.error(error)
-            })
-          }
+
 
 
         return (
