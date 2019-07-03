@@ -192,17 +192,15 @@ export class Provider extends Component{
                 data: `\nfields publisher, company; where id = ${companyID};`
             })
             .then( response => {
-                console.log(response);
                 if(response.data[0].publisher || arrayLength == 1) {
-                    console.log('the sortIC found' + response.data[0].company);
                     this.setState(prevState =>({
                         gameData: {
                             ...prevState.gameData,
                             publisherID : response.data[0].company
-
                         }
                     }));
                     getPublisherName(response.data[0].company);
+                    getPublisherRelatedTitles(response.data[0].company);
                 }
             })
             .catch(err => {
@@ -237,12 +235,44 @@ export class Provider extends Component{
             });
         }
 
-        
+        const getPublisherRelatedTitles = (publisherID) =>{
+            console.log(publisherID);
+            //We are going to get the releases of a publisher /companies
+            retrievePublishersOutput(publisherID) 
 
+            //Then we will get those games and find their release dates /games, making
+            //objects we put into an array
 
-        // const callAPIForPublisher = (companyID) => {
+            //We will sort these games by their years, and delete the rest of the array.
 
-        // }
+            //then we will get the names and the aggregated_scores of these 10 other games
+
+        }
+
+        const retrievePublishersOutput = (publisherID) => {
+                let arrayOfAllPublishedGames = [];
+                axios({
+                    method: "POST",
+                    url: `${process.env.REACT_APP_IGDB_API_URL}/companies`,
+                    headers: {
+                        "accept" : "application/json",
+                        "user-key": `${process.env.REACT_APP_IGDB_KEY}`
+                    },
+                    data: `\n fields published; where id=${publisherID};`
+                })
+                .then((response)=>{
+                    console.log(response);
+                    (response.data[0].published).forEach(game => {
+                        arrayOfAllPublishedGames.push(game)
+                    });
+                    //TODO: Might be better to use another api for this purpose
+                    console.log(arrayOfAllPublishedGames);
+                })
+                .catch(err =>{
+                    console.error(err);
+                });
+            
+        }
 
 
 
