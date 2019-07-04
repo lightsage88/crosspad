@@ -102,7 +102,11 @@ export class Provider extends Component{
 
                     }
                 }))
-                determineCover(response);
+
+                
+               determineCover(response, 'mainGame');
+
+
                 gatherCollection(response.data[0].collection);
                 console.log(gameID);
 
@@ -115,10 +119,14 @@ export class Provider extends Component{
         }
 
 
-
         
 
-        const determineCover =  (response, context) => {
+
+
+        
+        
+
+        const determineCover =  (response, id, context) => {
             response.data[0].cover ? axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_IGDB_API_URL}/covers/`,
@@ -129,13 +137,17 @@ export class Provider extends Component{
                 data: `\nfields image_id, url; where game=${response.data[0].cover};`
             })
             .then(response=>{
-                console.log(response);
-                this.setState(prevState=>({
-                    gameData: {
-                        ...prevState.gameData,
-                        cover: ((response.data).length >= 1  && response.data[0].url ? response.data[0].url : 'placeholderCoverImage')
-                    }
-                }));
+
+                //if the context is main game, we send them to another function that does 
+                //state stuff for gameData
+                if(context === "mainGame") {
+                    handleMainGameCover(response);
+                } else {
+                    handleRelatedGameCover(id, context)
+                }
+
+                //if the context is not, then we send them to another function that deals with a related game
+                //based on ID
             })
             .catch(err =>{
                 console.error(err)
@@ -146,6 +158,22 @@ export class Provider extends Component{
                     cover: 'insert placeholder image here'
                 }
             }));
+        }
+
+
+        const handleMainGameCover = (response) => {
+            console.log(response);
+            this.setState(prevState => ({
+                gameData : {
+                    ...prevState.gameData,
+                    coverUrl: response.data[0].url
+                }
+            }))
+        }
+
+        const handleRelatedGameCover = (response, id) => {
+            console.log(response, id);
+
         }
 
        const gatherCollection = (collectionID) => {
@@ -195,9 +223,30 @@ export class Provider extends Component{
                     return game.id !== this.state.gameData.gameID;
             });
             console.log(franchiseArray);
-            console.log(this.state.gameData);
-
-
+            return franchiseArray;
+        })
+        .then(franchiseArray => {
+            //for each member in the franchise array we are going to add
+            //an object for a  game in the state's relatedGames array.
+            franchiseArray.forEach(game => {
+                this.setState(prevState => ({
+                    relatedGames: [
+                        ...prevState.relatedGames, 
+                        {
+                            aggregatedRating: game.aggregated_rating,
+                            gameID: game.id,
+                            coverID: game.cover,
+                            name: game.name,
+                            releaseDate: game.release_dates[0].y
+                        }
+                    ]
+                }))
+            })
+        })
+        .then(()=>{
+            console.log(this.state);
+            //for each statemember for related games, we are going to do determinecover and pass in the 
+            //game's id value and cover value
         })
         .catch(err => {
             console.error(err);
