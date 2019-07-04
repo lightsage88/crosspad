@@ -68,7 +68,8 @@ export class Provider extends Component{
 
             console.log(gameID);
             this.setState(prevState=>({
-                searchOptions: []
+                searchOptions: [],
+                relatedGames: []
             }));
             axios({
                 method: "POST",
@@ -103,11 +104,23 @@ export class Provider extends Component{
                     }
                 }))
 
-                
-               determineCover(response, 'mainGame');
+               if(response.data[0].cover){
+                determineCover(response.data[0].id, 'mainGame');
+               } else {
+                   this.setState(prevState => ({
+                       gameData: {
+                           ...prevState.gameData,
+                           coverUrl: 'path to placeholder image'
+                       }
+                   }))
+               }
 
-
+               if(response.data[0].collection){
                 gatherCollection(response.data[0].collection);
+               } else {
+                   //we need to tell user that there aren't any colelctions
+                   console.log('Sorry but your princess is in another castle');
+               }
                 console.log(gameID);
 
             })
@@ -126,15 +139,16 @@ export class Provider extends Component{
         
         
 
-        const determineCover =  (response, id, context) => {
-            response.data[0].cover ? axios({
+        const determineCover =  (gameID, context, index) => {
+            console.log('determineCover running with' + gameID + context);
+            axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_IGDB_API_URL}/covers/`,
                 headers: {
                     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                     'accept': 'application/json'
                 },
-                data: `\nfields image_id, url; where game=${response.data[0].cover};`
+                data: `\nfields image_id, url; where game=${gameID};`
             })
             .then(response=>{
 
@@ -143,7 +157,7 @@ export class Provider extends Component{
                 if(context === "mainGame") {
                     handleMainGameCover(response);
                 } else {
-                    handleRelatedGameCover(id, context)
+                    handleRelatedGameCover(gameID, index, response)
                 }
 
                 //if the context is not, then we send them to another function that deals with a related game
@@ -151,18 +165,11 @@ export class Provider extends Component{
             })
             .catch(err =>{
                 console.error(err)
-            }) : 
-            this.setState(prevState=>({
-                gameData: {
-                    ...prevState.gameData,
-                    cover: 'insert placeholder image here'
-                }
-            }));
+            }) 
         }
 
 
         const handleMainGameCover = (response) => {
-            console.log(response);
             this.setState(prevState => ({
                 gameData : {
                     ...prevState.gameData,
@@ -171,8 +178,28 @@ export class Provider extends Component{
             }))
         }
 
-        const handleRelatedGameCover = (response, id) => {
-            console.log(response, id);
+        const handleRelatedGameCover = (gameID, index, response) => {
+            // console.log(gameID);
+            // console.log(response);
+            console.log(index);
+            let relatedGames = [...this.state.relatedGames];
+            let relatedGameObject = {...relatedGames[index]};
+            relatedGameObject.coverUrl = response.data[0].url;
+            relatedGames[index] = relatedGameObject;
+            this.setState(prevState=>({
+                relatedGames: [
+                ...relatedGames
+                ]
+              
+
+                
+            }))
+            
+            //we will find the relatedGame that has the same relatedGameID, and update that
+            //object to have the coverURL from this response.
+            
+           
+
 
         }
 
@@ -187,11 +214,11 @@ export class Provider extends Component{
                data: `\nfields name, games; where id = ${collectionID};`
            })
            .then(response => {
-               console.log(response);
+               //TODO: find a way to get a chronological return of gameIDs from the API
                let franchiseGameIDs = []
-               franchiseGameIDs = response.data[0].games;
+               franchiseGameIDs = (response.data[0].games).slice(0, 10);
+               //need to cut down to a maximum of ten
                getDataForFranchiseGames(franchiseGameIDs);
-               console.log(franchiseGameIDs);
                this.setState(prevState => ({
                 gameData: {
                     ...prevState.gameData,
@@ -216,13 +243,10 @@ export class Provider extends Component{
             data: `\n fields name, cover, release_dates.y, summary, aggregated_rating; where id = (${franchiseGameIDString});`
         })
         .then(response => {
-            console.log(response);
             let franchiseArray = response.data;
-            console.log(franchiseArray);
             franchiseArray = franchiseArray.filter(game => {
                     return game.id !== this.state.gameData.gameID;
             });
-            console.log(franchiseArray);
             return franchiseArray;
         })
         .then(franchiseArray => {
@@ -242,11 +266,18 @@ export class Provider extends Component{
                     ]
                 }))
             })
+           
         })
         .then(()=>{
             console.log(this.state);
             //for each statemember for related games, we are going to do determinecover and pass in the 
             //game's id value and cover value
+             let arrayOfRelatedGames = this.state.relatedGames;
+             console.log(arrayOfRelatedGames);
+            arrayOfRelatedGames.forEach((game, index) => {
+                console.log(game);
+                determineCover(game.gameID, null, index);
+            })
         })
         .catch(err => {
             console.error(err);
