@@ -24,7 +24,6 @@ const Searchbar = (props) => {
                     <div>
             <form>
                 <input onChange={inputChanges} type='text'></input>
-                <button type='submit'></button>
             </form>
             <ul>
                 {options}

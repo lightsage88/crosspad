@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from './components/Context';
-import './index.css';
+import './scss/crosspad.scss';
+import '../node_modules/nes.css/css/nes.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
