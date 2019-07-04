@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import { Provider } from './components/Context';
 import Navbar from './components/Navbar';
-import axios from 'axios';
 import './App.css';
 
 class App extends Component {

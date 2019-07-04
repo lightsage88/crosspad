@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 const CrosspadContext = React.createContext();
 
 export class Provider extends Component{
 
     state = {
+        currentDate: moment().format('M D Y'),
         gameData : {},
         relatedGames : [],
         searchOptions: [],
@@ -60,13 +62,7 @@ export class Provider extends Component{
 
         //This gets fired when you click on a game name
         const searchForSpecificGame = (gameID) => {
-            this.setState(prevState=>({
-                gameData: {
-                    ...prevState.gameData,
-                    publisherID: '',
-                    involved_companies: []
-                }
-            }));
+           
             //TODO: Set up Spinners
             //TODO: Clear input field for searching once you select a game
 
@@ -81,7 +77,7 @@ export class Provider extends Component{
                     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                     'accept': 'application/json'
                 },
-                data: `\nfields aggregated_rating, involved_companies, name, summary, cover; where id=${gameID};`
+                data: `\nfields aggregated_rating, release_dates.y, collection, name, summary, cover; where id=${gameID};`
 
                 
             })
@@ -97,23 +93,19 @@ export class Provider extends Component{
                     
                     gameData: {
                         ...prevState.gameData,
-                        aggregated_rating: response.data[0].aggregated_rating,
-                        // cover: response.data[0].cover,
-                        involved_companies: response.data[0].involved_companies,
+                        aggregatedRating: response.data[0].aggregated_rating,
+                        collection: response.data[0].collection,
+                        gameID,
                         name: response.data[0].name,
+                        releaseDate: response.data[0].release_dates[0].y,
                         summary: response.data[0].summary
 
                     }
                 }))
-
                 determineCover(response);
+                gatherCollection(response.data[0].collection);
+                console.log(gameID);
 
-                if((this.state.gameData.involved_companies).length >= 1) {
-                    determinePublisher(response)
-                }
-            })
-            .then(()=>{
-                getRelatedGamesInfo();
             })
             .catch(error => {
                 console.error(error);
@@ -123,15 +115,10 @@ export class Provider extends Component{
         }
 
 
-        const getRelatedGamesInfo = () => {
-            console.log(this.state);
-        }
 
-        const stateCheck = () => {
-            console.log(this.state);
-        }
+        
 
-        const determineCover =  (response) => {
+        const determineCover =  (response, context) => {
             response.data[0].cover ? axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_IGDB_API_URL}/covers/`,
@@ -161,124 +148,67 @@ export class Provider extends Component{
             }));
         }
 
-        //todo, determine year of release as well with game-id
-
-
-        const determinePublisher = (response) => {
-            console.log('determinePublisher running');
-
-            let companyArray = response.data[0].involved_companies;
-
-            if(this.state.gameData.publisherID === '') {
-                companyArray.forEach(company =>{
-                    console.log(company);
-                    sortInvolvedCompanies(company, companyArray.length)
-                });
-
-            } else {
-                console.log('we found the publisher at the id of ' + this.state.gameData.publisherID);
-            }    
-           
-        }
-
-        const sortInvolvedCompanies = (companyID, arrayLength) => {
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_IGDB_API_URL}/involved_companies/`,
-                headers: {
-                    'accept': 'application/json',
-                    'user-key': `${process.env.REACT_APP_IGDB_KEY}`
-                },
-                data: `\nfields publisher, company; where id = ${companyID};`
-            })
-            .then( response => {
-                if(response.data[0].publisher || arrayLength == 1) {
-                    this.setState(prevState =>({
-                        gameData: {
-                            ...prevState.gameData,
-                            publisherID : response.data[0].company
-                        }
-                    }));
-                    getPublisherName(response.data[0].company);
-                    getPublisherRelatedTitles(response.data[0].company);
+       const gatherCollection = (collectionID) => {
+           axios({
+               method: "POST",
+               url: `${process.env.REACT_APP_IGDB_API_URL}/collections`,
+               headers: {
+                   "accept": "application/json",
+                   "user-key": `${process.env.REACT_APP_IGDB_KEY}`
+               },
+               data: `\nfields name, games; where id = ${collectionID};`
+           })
+           .then(response => {
+               console.log(response);
+               let franchiseGameIDs = []
+               franchiseGameIDs = response.data[0].games;
+               getDataForFranchiseGames(franchiseGameIDs);
+               console.log(franchiseGameIDs);
+               this.setState(prevState => ({
+                gameData: {
+                    ...prevState.gameData,
+                    franchiseName: response.data[0].name
                 }
-            })
-            .catch(err => {
-                console.error(err);
+               }));
+           })
+           .catch(err => {
+               console.error(err);
+           });
+       }
+
+       const getDataForFranchiseGames = (franchiseGameIDs) => {
+        let franchiseGameIDString = franchiseGameIDs.toString();
+        axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_IGDB_API_URL}/games/`,
+            headers: {
+                "accept": "application/json",
+                "user-key": `${process.env.REACT_APP_IGDB_KEY}`
+            },
+            data: `\n fields name, cover, release_dates.y, summary, aggregated_rating; where id = (${franchiseGameIDString});`
+        })
+        .then(response => {
+            console.log(response);
+            let franchiseArray = response.data;
+            console.log(franchiseArray);
+            franchiseArray = franchiseArray.filter(game => {
+                    return game.id !== this.state.gameData.gameID;
             });
-        }
+            console.log(franchiseArray);
+            console.log(this.state.gameData);
 
-        const getPublisherName = (publisherID) => {
-            console.log(publisherID);
-            console.log('publisgername dfsdfsdf');
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_IGDB_API_URL}/companies/`,
-                headers: {
-                    "accept": "application/json",
-                    "user-key": `${process.env.REACT_APP_IGDB_KEY}`
-                },
-                //TODO: get logos involved, will just leave value here for now
-                data: `\n fields name,logo; where id=${publisherID};`
-            })
-            .then(response =>{
-                console.log(response);
-                this.setState(prevState =>({
-                    gameData: {
-                        ...prevState.gameData,
-                        publisherName: response.data[0].name
-                    }
-                }))
-            })
-            .catch(err=>{
-                console.error(err);
-            });
-        }
 
-        const getPublisherRelatedTitles = (publisherID) =>{
-            console.log(publisherID);
-            //We are going to get the releases of a publisher /companies
-            retrievePublishersOutput(publisherID) 
-
-            //Then we will get those games and find their release dates /games, making
-            //objects we put into an array
-
-            //We will sort these games by their years, and delete the rest of the array.
-
-            //then we will get the names and the aggregated_scores of these 10 other games
-
-        }
-
-        const retrievePublishersOutput = (publisherID) => {
-                let arrayOfAllPublishedGames = [];
-                axios({
-                    method: "POST",
-                    url: `${process.env.REACT_APP_IGDB_API_URL}/companies`,
-                    headers: {
-                        "accept" : "application/json",
-                        "user-key": `${process.env.REACT_APP_IGDB_KEY}`
-                    },
-                    data: `\n fields published; where id=${publisherID};`
-                })
-                .then((response)=>{
-                    console.log(response);
-                    (response.data[0].published).forEach(game => {
-                        arrayOfAllPublishedGames.push(game)
-                    });
-                    //TODO: Might be better to use another api for this purpose
-                    console.log(arrayOfAllPublishedGames);
-                })
-                .catch(err =>{
-                    console.error(err);
-                });
-            
-        }
-
+        })
+        .catch(err => {
+            console.error(err);
+        });
+       }
 
 
 
         return (
             <CrosspadContext.Provider value={{
+                currentDate: this.state.currentDate,
                 gameData : this.state.gameData,
                 relatedGames: this.state.relatedGames,
                 searchOptions: this.state.searchOptions,
