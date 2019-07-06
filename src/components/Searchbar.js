@@ -6,13 +6,16 @@ import PropTypes from 'prop-types';
 const Searchbar = (props) => {
 
     
-
+//onMouseOver={context.actions.hoverIntoButton}
     return (
         <Consumer>
+        
         {
             context => {
                 const options = context.searchOptions.map((option, index) => {
-                    return <li key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>{option.name}</li>
+                    return <li onMouseEnter={}  className='liButtonWrapper' key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
+                    <button key={index} type='button' className={context.buttonBeingHovered ? 'nes-btn retroFont is-error' : 'nes-btn retroFont is-primary'}>{option.name}</button>
+                    </li>
                 })
 
                 const inputChanges = (e) => {
@@ -21,14 +24,17 @@ const Searchbar = (props) => {
                 }
 
                 return (
-                    <div>
-            <form>
-                <input onChange={inputChanges} type='text'></input>
-            </form>
-            <ul>
-                {options}
-            </ul>
-        </div>
+                    <section className='showcase'>
+                        <section className="nes-container with-title">
+                        <h3 className='title retroFont'>Enter the name of a game and select an option</h3>
+                        <form>
+                            <input className='nes-input retroFont' onChange={inputChanges} type='text'></input>
+                        </form>
+                        <ul className='gameButtonUL'>
+                            {options}
+                        </ul>
+                        </section>
+                    </section>
                 );
             }
         }

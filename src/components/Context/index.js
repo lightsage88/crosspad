@@ -7,11 +7,11 @@ const CrosspadContext = React.createContext();
 export class Provider extends Component{
 
     state = {
-        currentDate: moment().format('M D Y'),
+        buttonBeingHovered: false,
         gameData : {},
         relatedGames : [],
         searchOptions: [],
-        searchValue: ''      
+        searchValue: ''    
     };
     typingTimer = null;
 
@@ -284,11 +284,18 @@ export class Provider extends Component{
         });
        }
 
+       const hoverIntoButton = (index) => {
+           console.log('hoverIntoButton firing on ' + index);
+           this.setState(prevState => ({
+               buttonBeingHovered: !prevState.buttonBeingHovered
+           }))
+       }
+
 
 
         return (
             <CrosspadContext.Provider value={{
-                currentDate: this.state.currentDate,
+                buttonBeingHovered: this.state.buttonBeingHovered,
                 gameData : this.state.gameData,
                 relatedGames: this.state.relatedGames,
                 searchOptions: this.state.searchOptions,
@@ -297,6 +304,7 @@ export class Provider extends Component{
                 searchBarInputBarRef: this.searchInputBarRef,
                 actions: {
                     handleTypingChange: handleTypingChange,
+                    hoverIntoButton: hoverIntoButton,
                     updateSearchValue: updateSearchValue,
                     searchDatabaseForGame: searchDatabaseForGame,
                     searchForSpecificGame: searchForSpecificGame

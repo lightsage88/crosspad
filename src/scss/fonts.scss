@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Player 2';
+    src: url('../fontsForCrosspad/PressStart2P-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Nintendo';
+    src: url('../fontsForCrosspad/Nintender.ttf')
+}
+
+$nintendoFont: 'Nintendo', serif;
+$retroFont: 'Player 2', sans-serif
