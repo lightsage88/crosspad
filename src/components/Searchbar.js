@@ -16,11 +16,10 @@ const Searchbar = (props) => {
                     return <li  className='liButtonWrapper' key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
                             <button id={index + 'gameButton'} 
                                     type='button' 
-                                    onMouseEnter={(e)=>{context.actions.hoverIntoButton(e.target.id)}} 
-                                    onMouseLeave={(e)=>{context.actions.hoverOutOfButton(e.target.id)}}  
-                                    className={context.buttonBeingHovered ? 
-                                        'nes-btn retroFont is-error' 
-                                        :'nes-btn retroFont is-primary'}>
+                                    onClick={()=>{context.actions.playSound('coin')}}
+                                    onMouseEnter={(e)=>{context.actions.hoverIntoButton(e.target.id, 'red')}} 
+                                    onMouseLeave={(e)=>{context.actions.hoverIntoButton(e.target.id, 'blue')}}  
+                                    className='nes-btn retroFont is-primary'>
                                 {option.name}
                             </button>
                             </li>

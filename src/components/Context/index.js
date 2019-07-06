@@ -23,6 +23,8 @@ export class Provider extends Component{
             clearTimeout(this.typingTimer);
             let value = searchValue;
             this.typingTimer = setTimeout(()=>{updateSearchValue(value)}, 900);
+            var gameList = document.querySelector('.gameButtonUL');
+            gameList.style.visibility = 'visible';
         
         }
 
@@ -71,6 +73,11 @@ export class Provider extends Component{
                 searchOptions: [],
                 relatedGames: []
             }));
+            var gameList = document.querySelector('.gameButtonUL');
+            gameList.style.visibility = 'hidden';
+
+
+
             axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_IGDB_API_URL}/games/`,
@@ -253,15 +260,16 @@ export class Provider extends Component{
             //for each member in the franchise array we are going to add
             //an object for a  game in the state's relatedGames array.
             franchiseArray.forEach(game => {
+                console.log(game);
                 this.setState(prevState => ({
                     relatedGames: [
                         ...prevState.relatedGames, 
                         {
-                            aggregatedRating: game.aggregated_rating,
-                            gameID: game.id,
-                            coverID: game.cover,
-                            name: game.name,
-                            releaseDate: game.release_dates[0].y
+                            aggregatedRating: game.aggregated_rating ? game.aggregated_rating : "Unknown",
+                            gameID: game.id ? game.id : "Unknown",
+                            coverID: game.cover ? game.cover : 'Unknown',
+                            name: game.name ? game.name : 'Unknown',
+                            releaseDate: game.release_dates ? game.release_dates[0].y : 'Unknown'
                         }
                     ]
                 }))
@@ -284,16 +292,26 @@ export class Provider extends Component{
         });
        }
 
-       const hoverIntoButton = (id) => {
+       const hoverIntoButton = (id, toggle) => {
             var buttonToChange = document.getElementById(id);
+            if(toggle === 'red') {
             buttonToChange.classList.remove('is-primary');
             buttonToChange.classList.add('is-error');
+            } else {
+                buttonToChange.classList.remove('is-error');
+                buttonToChange.classList.add('is-primary');
+        
+            }
        }
 
-       const hoverOutOfButton = (id) => {
-        var buttonToChange = document.getElementById(id);
-        buttonToChange.classList.remove('is-error');
-        buttonToChange.classList.add('is-primary');
+       const playSound = (order) => {
+           var sound = document.createElement("audio");
+           switch(order) {
+                case 'coin' :
+                   sound.src = 'https://themushroomkingdom.net/sounds/wav/smw/smw_coin.wav'
+                break;
+           }
+           sound.play();
        }
 
 
@@ -310,7 +328,7 @@ export class Provider extends Component{
                 actions: {
                     handleTypingChange: handleTypingChange,
                     hoverIntoButton: hoverIntoButton,
-                    hoverOutOfButton: hoverOutOfButton,
+                    playSound: playSound,
                     updateSearchValue: updateSearchValue,
                     searchDatabaseForGame: searchDatabaseForGame,
                     searchForSpecificGame: searchForSpecificGame
