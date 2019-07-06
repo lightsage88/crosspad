@@ -6,22 +6,32 @@ import PropTypes from 'prop-types';
 const Searchbar = (props) => {
 
     
-//onMouseOver={context.actions.hoverIntoButton}
+//onMouseOver={context.actions.hoverIntoButton} 
     return (
         <Consumer>
         
         {
             context => {
                 const options = context.searchOptions.map((option, index) => {
-                    return <li onMouseEnter={}  className='liButtonWrapper' key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
-                    <button key={index} type='button' className={context.buttonBeingHovered ? 'nes-btn retroFont is-error' : 'nes-btn retroFont is-primary'}>{option.name}</button>
-                    </li>
+                    return <li  className='liButtonWrapper' key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
+                            <button id={index + 'gameButton'} 
+                                    type='button' 
+                                    onMouseEnter={(e)=>{context.actions.hoverIntoButton(e.target.id)}} 
+                                    onMouseLeave={(e)=>{context.actions.hoverOutOfButton(e.target.id)}}  
+                                    className={context.buttonBeingHovered ? 
+                                        'nes-btn retroFont is-error' 
+                                        :'nes-btn retroFont is-primary'}>
+                                {option.name}
+                            </button>
+                            </li>
                 })
 
                 const inputChanges = (e) => {
                     let searchValue = e.target.value;
                     context.actions.handleTypingChange ? setTimeout(()=>{context.actions.handleTypingChange(searchValue)}, 500) : console.log('yo');
                 }
+
+
 
                 return (
                     <section className='showcase'>

@@ -31,3 +31,15 @@
 2019/07/05-17:22:14.513 7a9f Level-0 table #42: started
 2019/07/05-17:22:14.563 7a9f Level-0 table #42: 14417 bytes OK
 2019/07/05-17:22:14.631 7a9f Delete type=0 #39
+2019/07/05-17:31:45.184 7d15 Level-0 table #44: started
+2019/07/05-17:31:45.285 7d15 Level-0 table #44: 15074 bytes OK
+2019/07/05-17:31:45.354 7d15 Delete type=0 #41
+2019/07/05-17:31:45.355 7c18 Compacting 4@0 + 1@1 files
+2019/07/05-17:31:45.464 7c18 Generated table #45@0: 538 keys, 113525 bytes
+2019/07/05-17:31:45.464 7c18 Compacted 4@0 + 1@1 files => 113525 bytes
+2019/07/05-17:31:45.519 7c18 compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/05-17:31:45.520 7c18 Delete type=2 #42
+2019/07/05-17:31:45.520 7c18 Delete type=2 #40
+2019/07/05-17:31:45.520 7c18 Delete type=2 #44
+2019/07/05-17:31:45.521 7c18 Delete type=2 #38
+2019/07/05-17:31:45.521 7c18 Delete type=2 #36

@@ -284,11 +284,16 @@ export class Provider extends Component{
         });
        }
 
-       const hoverIntoButton = (index) => {
-           console.log('hoverIntoButton firing on ' + index);
-           this.setState(prevState => ({
-               buttonBeingHovered: !prevState.buttonBeingHovered
-           }))
+       const hoverIntoButton = (id) => {
+            var buttonToChange = document.getElementById(id);
+            buttonToChange.classList.remove('is-primary');
+            buttonToChange.classList.add('is-error');
+       }
+
+       const hoverOutOfButton = (id) => {
+        var buttonToChange = document.getElementById(id);
+        buttonToChange.classList.remove('is-error');
+        buttonToChange.classList.add('is-primary');
        }
 
 
@@ -305,6 +310,7 @@ export class Provider extends Component{
                 actions: {
                     handleTypingChange: handleTypingChange,
                     hoverIntoButton: hoverIntoButton,
+                    hoverOutOfButton: hoverOutOfButton,
                     updateSearchValue: updateSearchValue,
                     searchDatabaseForGame: searchDatabaseForGame,
                     searchForSpecificGame: searchForSpecificGame
