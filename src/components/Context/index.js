@@ -193,7 +193,7 @@ export class Provider extends Component{
             console.log(index);
             let relatedGames = [...this.state.relatedGames];
             let relatedGameObject = {...relatedGames[index]};
-            relatedGameObject.coverUrl = response.data[0].url;
+            relatedGameObject.coverUrl = response.data[0].url || 'Unknown need placeholder';
             relatedGames[index] = relatedGameObject;
             this.setState(prevState=>({
                 relatedGames: [

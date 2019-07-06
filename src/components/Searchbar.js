@@ -13,7 +13,9 @@ const Searchbar = (props) => {
         {
             context => {
                 const options = context.searchOptions.map((option, index) => {
-                    return <li  className='liButtonWrapper' key={index} onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
+                    return <li  className='liButtonWrapper' 
+                                key={index} 
+                                onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
                             <button id={index + 'gameButton'} 
                                     type='button' 
                                     onClick={()=>{context.actions.playSound('coin')}}
