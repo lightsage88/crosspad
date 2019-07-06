@@ -34,7 +34,9 @@ export class Provider extends Component{
               searchValue : value 
             }));
             console.log(this.state.searchValue);
+            if(value !== ''){
             searchDatabaseForGame();
+            }
         }
 
         const searchDatabaseForGame = () => {

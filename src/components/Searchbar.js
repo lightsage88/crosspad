@@ -25,6 +25,8 @@ const Searchbar = (props) => {
                             </li>
                 })
 
+
+
                 const inputChanges = (e) => {
                     let searchValue = e.target.value;
                     context.actions.handleTypingChange ? setTimeout(()=>{context.actions.handleTypingChange(searchValue)}, 500) : console.log('yo');

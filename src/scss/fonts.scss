@@ -8,5 +8,11 @@
     src: url('../fontsForCrosspad/Nintender.ttf')
 }
 
+@font-face {
+    font-family: "SNES";
+    src: url('../fontsForCrosspad/SNES\ Italic.ttf');
+}
+
 $nintendoFont: 'Nintendo', serif;
-$retroFont: 'Player 2', sans-serif
+$retroFont: 'Player 2', sans-serif;
+$snesFont: 'SNES', sans-serif;

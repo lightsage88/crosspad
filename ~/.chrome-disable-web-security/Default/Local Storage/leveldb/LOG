@@ -43,3 +43,39 @@
 2019/07/05-23:17:31.631 332a Level-0 table #31: started
 2019/07/05-23:17:31.689 332a Level-0 table #31: 16148 bytes OK
 2019/07/05-23:17:31.756 332a Delete type=0 #28
+2019/07/05-23:40:36.275 3b03 Level-0 table #33: started
+2019/07/05-23:40:36.412 3b03 Level-0 table #33: 17146 bytes OK
+2019/07/05-23:40:36.460 3b03 Delete type=0 #30
+2019/07/05-23:42:53.034 3b5e Level-0 table #35: started
+2019/07/05-23:42:53.108 3b5e Level-0 table #35: 11025 bytes OK
+2019/07/05-23:42:53.153 3b5e Delete type=0 #32
+2019/07/05-23:42:53.154 3b43 Compacting 4@0 + 1@1 files
+2019/07/05-23:42:53.285 3b43 Generated table #36@0: 602 keys, 64655 bytes
+2019/07/05-23:42:53.285 3b43 Compacted 4@0 + 1@1 files => 64655 bytes
+2019/07/05-23:42:53.342 3b43 compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/05-23:42:53.343 3b43 Delete type=2 #33
+2019/07/05-23:42:53.344 3b43 Delete type=2 #29
+2019/07/05-23:42:53.344 3b43 Delete type=2 #31
+2019/07/05-23:42:53.345 3b43 Delete type=2 #35
+2019/07/05-23:42:53.346 3b43 Delete type=2 #27
+2019/07/05-23:47:26.100 3c1e Level-0 table #38: started
+2019/07/05-23:47:26.529 3c1e Level-0 table #38: 12753 bytes OK
+2019/07/05-23:47:26.586 3c1e Delete type=0 #34
+2019/07/06-00:46:29.303 48cc Level-0 table #40: started
+2019/07/06-00:46:29.444 48cc Level-0 table #40: 13519 bytes OK
+2019/07/06-00:46:29.513 48cc Delete type=0 #37
+2019/07/06-01:09:50.903 4dd9 Level-0 table #42: started
+2019/07/06-01:09:51.009 4dd9 Level-0 table #42: 15352 bytes OK
+2019/07/06-01:09:51.078 4dd9 Delete type=0 #39
+2019/07/06-01:31:51.050 4f28 Level-0 table #44: started
+2019/07/06-01:31:51.093 4f28 Level-0 table #44: 97595 bytes OK
+2019/07/06-01:31:51.229 4f28 Delete type=0 #41
+2019/07/06-01:31:51.230 515b Compacting 4@0 + 1@1 files
+2019/07/06-01:31:51.361 515b Generated table #45@0: 655 keys, 157865 bytes
+2019/07/06-01:31:51.361 515b Compacted 4@0 + 1@1 files => 157865 bytes
+2019/07/06-01:31:51.506 515b compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/06-01:31:51.506 515b Delete type=2 #42
+2019/07/06-01:31:51.507 515b Delete type=2 #40
+2019/07/06-01:31:51.510 515b Delete type=2 #44
+2019/07/06-01:31:51.510 515b Delete type=2 #38
+2019/07/06-01:31:51.510 515b Delete type=2 #36
