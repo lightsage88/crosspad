@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from './components/Context';
 import './scss/crosspad.scss';
+
 import '../node_modules/nes.css/css/nes.min.css';
 import '../node_modules/nes.css/css/nes-core.min.css';
 import '../node_modules/react-bootstrap/dist/react-bootstrap.min.js';

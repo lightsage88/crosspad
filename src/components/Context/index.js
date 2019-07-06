@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import search1 from '../../picturesForCrosspad/needSearchImages/search-1.png';
+import search2 from '../../picturesForCrosspad/needSearchImages/search-2.png';
+import search3 from '../../picturesForCrosspad/needSearchImages/search-3.png';
+import search4 from '../../picturesForCrosspad/needSearchImages/search-4.png';
+import search5 from '../../picturesForCrosspad/needSearchImages/search-5.png';
+import search6 from '../../picturesForCrosspad/needSearchImages/search-6.png';
+import search7 from '../../picturesForCrosspad/needSearchImages/search-7.png';
+import search8 from '../../picturesForCrosspad/needSearchImages/search-8.png';
+import search9 from '../../picturesForCrosspad/needSearchImages/search-9.png';
+import search10 from '../../picturesForCrosspad/needSearchImages/search-10.png';
 
 const CrosspadContext = React.createContext();
 
@@ -8,8 +18,11 @@ export class Provider extends Component{
 
     state = {
         buttonBeingHovered: false,
+        carouselDirection: null,
+        carouselIndex: 0,
         gameData : {},
         relatedGames : [],
+        searchNoticeImages: [search1, search2,search3, search4, search5, search6, search7, search8, search9, search10],
         searchOptions: [],
         searchValue: ''    
     };
@@ -179,10 +192,12 @@ export class Provider extends Component{
 
 
         const handleMainGameCover = (response) => {
+            
+            
             this.setState(prevState => ({
                 gameData : {
                     ...prevState.gameData,
-                    coverUrl: response.data[0].url
+                    coverUrl: (response.data[0].url).replace('thumb','cover_big')
                 }
             }))
         }
@@ -306,6 +321,13 @@ export class Provider extends Component{
             }
        }
 
+       const handleCarouselSelect = (selectedIndex, e) => {
+           this.setState(prevState => ({
+               index: selectedIndex,
+               direction: e.direction
+           }));
+       }
+
        const playSound = (order) => {
            var sound = document.createElement("audio");
            switch(order) {
@@ -321,13 +343,17 @@ export class Provider extends Component{
         return (
             <CrosspadContext.Provider value={{
                 buttonBeingHovered: this.state.buttonBeingHovered,
+                carouselDirection: null,
+                carouselIndex: 0,
                 gameData : this.state.gameData,
                 relatedGames: this.state.relatedGames,
+                searchNoticeImages: this.state.searchNoticeImages,
                 searchOptions: this.state.searchOptions,
                 searchValue: this.state.searchValue,
                 typingTimer : null,
                 searchBarInputBarRef: this.searchInputBarRef,
                 actions: {
+                    handleCarouselSelect: handleCarouselSelect,
                     handleTypingChange: handleTypingChange,
                     hoverIntoButton: hoverIntoButton,
                     playSound: playSound,
