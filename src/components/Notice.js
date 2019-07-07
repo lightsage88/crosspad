@@ -36,7 +36,7 @@ const Notice = (props) => {
                              </section>
                  }
                 return (
-                    <div>
+                    <div id="noticeDiv">
                         {notice}
                     </div>
                 )

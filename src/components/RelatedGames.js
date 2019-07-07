@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardImg, CardTitle, CardText, CardGroup,
+import { Card, CardImg, CardTitle, CardDeck, CardText, CardGroup,
     CardSubtitle, CardBody } from 'reactstrap';
 import Notice from './Notice';  
 import {Consumer} from './Context';
@@ -28,26 +28,20 @@ const RelatedGames = () => {
                         <CardImg src={game.coverUrl} alt={game.name + ' cover'}/>
                         <CardBody>
                             <CardTitle>{game.name}</CardTitle>
-
+                            <CardText>{game.releaseDate}</CardText>
                         </CardBody>
 
                     </Card>
                     
                     </div>
                 })
-               return (context.relatedGames).length > 0 ?  (<div>
-                   {/* <Carousel
-                    activeIndex={context.carouselIndex}
-                    direction={context.carouselDirection}
-                    onSelect={context.actions.handleCarouselSelect}
-                   >
-                    {carouselItems}
-                   </Carousel> */}
+               return (context.relatedGames).length > 0 ?  (
+                  
 
-                   <CardGroup>
+                   <CardDeck>
                     {cardItems}
-                   </CardGroup>
-                </div>)
+                   </CardDeck>
+                )
              :
             
             (<Notice type="search"/>)

@@ -15,6 +15,7 @@ import drWright from '../../picturesForCrosspad/noGraphImages/drwright.png';
 import snake from '../../picturesForCrosspad/noGraphImages/snake.png';
 import drmario from '../../picturesForCrosspad/noGameImages/drmario.png';
 import spiderman from '../../picturesForCrosspad/noGameImages/spiderman.gif';
+import sonic from '../../picturesForCrosspad/sonic.gif';
 
 const CrosspadContext = React.createContext();
 
@@ -25,6 +26,7 @@ export class Provider extends Component{
         carouselDirection: null,
         carouselIndex: 0,
         gameData : {},
+        loaderImage: sonic,
         noGameSet: [
             {
             image: spiderman,
@@ -55,6 +57,8 @@ export class Provider extends Component{
     searchInputBarRef = React.createRef();
 
     render() {
+
+        
 
         const handleTypingChange = (searchValue) => {
             clearTimeout(this.typingTimer);
@@ -103,7 +107,7 @@ export class Provider extends Component{
 
         //This gets fired when you click on a game name
         const searchForSpecificGame = (gameID) => {
-           
+            
             //TODO: Set up Spinners
             //TODO: Clear input field for searching once you select a game
 
@@ -140,12 +144,12 @@ export class Provider extends Component{
                     
                     gameData: {
                         ...prevState.gameData,
-                        aggregatedRating: response.data[0].aggregated_rating,
-                        collection: response.data[0].collection,
+                        aggregatedRating: Math.round(response.data[0].aggregated_rating) || "Unknown",
+                        collection: response.data[0].collection || "Unknown",
                         gameID,
-                        name: response.data[0].name,
-                        releaseDate: response.data[0].release_dates[0].y,
-                        summary: response.data[0].summary
+                        name: response.data[0].name || "Unknown",
+                        releaseDate:  response.data[0].release_dates[0].y || 'Unknown',
+                        summary: response.data[0].summary || "Unknown"
 
                     }
                 }))
@@ -232,7 +236,7 @@ export class Provider extends Component{
             console.log(index);
             let relatedGames = [...this.state.relatedGames];
             let relatedGameObject = {...relatedGames[index]};
-            relatedGameObject.coverUrl = response.data[0].url || 'Unknown need placeholder';
+            relatedGameObject.coverUrl = (response.data[0].url).replace('thumb','cover_big') || 'Unknown need placeholder';
             relatedGames[index] = relatedGameObject;
             this.setState(prevState=>({
                 relatedGames: [
@@ -243,12 +247,6 @@ export class Provider extends Component{
                 
             }))
             
-            //we will find the relatedGame that has the same relatedGameID, and update that
-            //object to have the coverURL from this response.
-            
-           
-
-
         }
 
        const gatherCollection = (collectionID) => {
@@ -306,7 +304,7 @@ export class Provider extends Component{
                     relatedGames: [
                         ...prevState.relatedGames, 
                         {
-                            aggregatedRating: game.aggregated_rating ? game.aggregated_rating : "Unknown",
+                            aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
                             gameID: game.id ? game.id : "Unknown",
                             coverID: game.cover ? game.cover : 'Unknown',
                             name: game.name ? game.name : 'Unknown',
@@ -321,16 +319,32 @@ export class Provider extends Component{
             console.log(this.state);
             //for each statemember for related games, we are going to do determinecover and pass in the 
             //game's id value and cover value
-             let arrayOfRelatedGames = this.state.relatedGames;
-             console.log(arrayOfRelatedGames);
+            let arrayOfRelatedGames = this.state.relatedGames;
+            arrayOfRelatedGames.sort(sortFranchiseGamesArray);
             arrayOfRelatedGames.forEach((game, index) => {
-                console.log(game);
                 determineCover(game.gameID, null, index);
             })
         })
         .catch(err => {
             console.error(err);
         });
+       }
+
+       const sortFranchiseGamesArray = (a,b) =>{
+        
+            // Use toUpperCase() to ignore character casing
+            const yearA = a.releaseDate;
+            const yearB = b.releaseDate;
+          
+            let comparison = 0;
+            if (yearA > yearB) {
+              comparison = 1;
+            } else if (yearA < yearB) {
+              comparison = -1;
+            }
+            return comparison;
+          
+          
        }
 
        const hoverIntoButton = (id, toggle) => {
@@ -370,6 +384,7 @@ export class Provider extends Component{
                 carouselDirection: null,
                 carouselIndex: 0,
                 gameData : this.state.gameData,
+                loaderImage: this.state.loaderImage,
                 noGameSet: this.state.noGameSet,
                 noGraphSet: this.state.noGraphSet,
                 relatedGames: this.state.relatedGames,

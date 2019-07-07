@@ -127,3 +127,45 @@
 2019/07/06-17:57:47.114 1714 Delete type=2 #74
 2019/07/06-17:57:47.114 1714 Delete type=2 #76
 2019/07/06-17:57:47.114 1714 Delete type=2 #78
+2019/07/06-21:19:57.303 2089 Level-0 table #83: started
+2019/07/06-21:19:57.407 2089 Level-0 table #83: 17061 bytes OK
+2019/07/06-21:19:57.498 2089 Delete type=0 #79
+2019/07/06-22:09:05.208 293d Level-0 table #85: started
+2019/07/06-22:09:05.333 293d Level-0 table #85: 27516 bytes OK
+2019/07/06-22:09:05.412 293d Delete type=0 #82
+2019/07/06-23:52:02.668 306e Level-0 table #87: started
+2019/07/06-23:52:02.723 306e Level-0 table #87: 26327 bytes OK
+2019/07/06-23:52:02.769 306e Delete type=0 #84
+2019/07/07-00:38:34.285 3924 Level-0 table #89: started
+2019/07/07-00:38:34.403 3924 Level-0 table #89: 20662 bytes OK
+2019/07/07-00:38:34.481 3924 Delete type=0 #86
+2019/07/07-00:38:34.482 38be Compacting 4@0 + 1@1 files
+2019/07/07-00:38:34.560 38be Generated table #90@0: 1072 keys, 418229 bytes
+2019/07/07-00:38:34.560 38be Compacted 4@0 + 1@1 files => 418229 bytes
+2019/07/07-00:38:34.637 38be compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/07-00:38:34.638 38be Delete type=2 #85
+2019/07/07-00:38:34.638 38be Delete type=2 #87
+2019/07/07-00:38:34.639 38be Delete type=2 #83
+2019/07/07-00:38:34.639 38be Delete type=2 #81
+2019/07/07-00:38:34.639 38be Delete type=2 #89
+2019/07/07-00:39:53.102 387d Level-0 table #92: started
+2019/07/07-00:39:53.161 387d Level-0 table #92: 15370 bytes OK
+2019/07/07-00:39:53.245 387d Delete type=0 #88
+2019/07/07-01:00:07.652 3e3b Level-0 table #94: started
+2019/07/07-01:00:07.748 3e3b Level-0 table #94: 15785 bytes OK
+2019/07/07-01:00:07.806 3e3b Delete type=0 #91
+2019/07/07-01:03:16.983 3e3b Level-0 table #96: started
+2019/07/07-01:03:17.088 3e3b Level-0 table #96: 21316 bytes OK
+2019/07/07-01:03:17.167 3e3b Delete type=0 #93
+2019/07/07-01:04:53.875 40a6 Level-0 table #98: started
+2019/07/07-01:04:53.957 40a6 Level-0 table #98: 21433 bytes OK
+2019/07/07-01:04:54.035 40a6 Delete type=0 #95
+2019/07/07-01:04:54.036 3e3b Compacting 4@0 + 1@1 files
+2019/07/07-01:04:54.114 3e3b Generated table #99@0: 1159 keys, 461418 bytes
+2019/07/07-01:04:54.114 3e3b Compacted 4@0 + 1@1 files => 461418 bytes
+2019/07/07-01:04:54.180 3e3b compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/07-01:04:54.181 3e3b Delete type=2 #90
+2019/07/07-01:04:54.181 3e3b Delete type=2 #94
+2019/07/07-01:04:54.181 3e3b Delete type=2 #92
+2019/07/07-01:04:54.182 3e3b Delete type=2 #98
+2019/07/07-01:04:54.182 3e3b Delete type=2 #96
