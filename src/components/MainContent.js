@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import MainGameData from './MainGameData';
 import RelatedGames from './RelatedGames';
+import Trend from './Trend';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
@@ -17,7 +18,7 @@ const MainContent = () => {
                         <RelatedGames />
                     </Tab>
                     <Tab className="nintendoFont" eventKey="contact" title="Trend">
-                        <h1 className="nintendoFont">shit</h1>
+                        <Trend />
                     </Tab>
                 </Tabs>
             </div>

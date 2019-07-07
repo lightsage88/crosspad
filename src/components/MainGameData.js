@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Consumer} from './Context';
+import Notice from './Notice';
 
 
 
@@ -8,14 +9,13 @@ const MainGameData = () => {
         <Consumer>
         {
             context => {
-     
-            return (
-                <div>
-                    <h1 className='nintendoFont'>
-                        {context.gameData.name || "Wait for something cool"}
-                    </h1>
-                    <img src={context.gameData.coverUrl} />
+            return ( context.gameData.name !== undefined ?  <div>
+
                     <section id='mainGameDetails' className='nes-table-responsive'>
+                        <h1 className='nintendoFont'>
+                            {context.gameData.name}
+                        </h1>
+                        <img src={context.gameData.coverUrl} />
                         <table className='nes-table is-bordered is-dark snesFont'>
                             <thead>
                                 <tr>
@@ -40,6 +40,8 @@ const MainGameData = () => {
                         </section>
                     </section>
                 </div>
+                :
+                (<Notice type='noGame' />)
             )
 
             }

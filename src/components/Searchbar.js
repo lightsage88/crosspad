@@ -41,7 +41,7 @@ const Searchbar = (props) => {
                         <section className="nes-container with-title">
                         <h3 className='title retroFont'>Enter the name of a game and select an option</h3>
                         <form>
-                            <input className='nes-input retroFont' onChange={inputChanges} type='text'></input>
+                            <input className='nes-input retroFont is-dark' onChange={inputChanges} type='text'></input>
                         </form>
                         <ul className='gameButtonUL'>
                             {options}

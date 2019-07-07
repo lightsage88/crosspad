@@ -11,6 +11,10 @@ import search7 from '../../picturesForCrosspad/needSearchImages/search-7.png';
 import search8 from '../../picturesForCrosspad/needSearchImages/search-8.png';
 import search9 from '../../picturesForCrosspad/needSearchImages/search-9.png';
 import search10 from '../../picturesForCrosspad/needSearchImages/search-10.png';
+import drWright from '../../picturesForCrosspad/noGraphImages/drwright.png';
+import snake from '../../picturesForCrosspad/noGraphImages/snake.png';
+import drmario from '../../picturesForCrosspad/noGameImages/drmario.png';
+import spiderman from '../../picturesForCrosspad/noGameImages/spiderman.gif';
 
 const CrosspadContext = React.createContext();
 
@@ -21,6 +25,26 @@ export class Provider extends Component{
         carouselDirection: null,
         carouselIndex: 0,
         gameData : {},
+        noGameSet: [
+            {
+            image: spiderman,
+            text: "I may wear a mask, but I can clearly see there's no game here!"
+            },
+            {
+            image: drmario,
+            text: "May I prescribe some text in the search bar?"
+            }
+        ],
+        noGraphSet: [
+            {
+            image: drWright,
+            text: "Egads, there doesn't seem to be any data!"
+            },
+            {
+            image: snake,
+            text: "This is Snake...is data to be retrieved by OSP too?"
+            }
+        ],
         relatedGames : [],
         searchNoticeImages: [search1, search2,search3, search4, search5, search6, search7, search8, search9, search10],
         searchOptions: [],
@@ -346,6 +370,8 @@ export class Provider extends Component{
                 carouselDirection: null,
                 carouselIndex: 0,
                 gameData : this.state.gameData,
+                noGameSet: this.state.noGameSet,
+                noGraphSet: this.state.noGraphSet,
                 relatedGames: this.state.relatedGames,
                 searchNoticeImages: this.state.searchNoticeImages,
                 searchOptions: this.state.searchOptions,
