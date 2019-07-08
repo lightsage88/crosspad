@@ -1,15 +1,21 @@
+@import './animations.scss';
 @import './fonts.scss';
 // @import './classes.scss';
 // @import './ids.scss';
 @import './ids/headerJumbotron.scss';
+@import './ids/loaderP.scss';
 @import './ids/mainGameDetails.scss';
 @import './ids/noticeDiv.scss';
 @import './classes/card.scss';
 @import './classes/card-body.scss';
 @import './classes/card-deck.scss';
 @import './classes/retroFont.scss';
+@import './classes/loaderActive.scss';
+@import './classes/loaderFinished.scss';
+@import './classes/loaderPActive.scss';
 @import '/classes/nesTableFix.scss';
 @import './classes/nintendoFont.scss';
+@import './classes/opacityFog.scss';
 @import './classes/snesFont.scss';
 @import './classes/liButtonWrapper.scss';
 

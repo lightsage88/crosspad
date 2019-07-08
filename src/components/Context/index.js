@@ -26,6 +26,7 @@ export class Provider extends Component{
         carouselDirection: null,
         carouselIndex: 0,
         gameData : {},
+        isLoading: false,
         loaderImage: sonic,
         noGameSet: [
             {
@@ -82,6 +83,8 @@ export class Provider extends Component{
 
         const searchDatabaseForGame = () => {
             console.log('searchDatabase was fired');
+            console.log('have spinner show up now');
+            loadToggle('isLoading');
             axios({
               method: "POST",
               url: `${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
@@ -98,6 +101,7 @@ export class Provider extends Component{
               this.setState(prevState=>({
                 searchOptions: response.data
               }));
+            loadToggle('stopLoading');          
             })
             .catch(error => {
               console.error(error)
@@ -139,6 +143,22 @@ export class Provider extends Component{
                 
                 //if there is a cover variable get it and do an async call, if not, make the cover in state be a 
                 //placeholder image
+                // let object = {
+                //     aggregatedRating: response.data[0].aggregated_rating || "Unknown",
+                //     collection: response.data[0].collection || "Unknown",
+                //     gameID,
+                //     name: response.data[0].name || "Unknown",
+                //     // releaseDate: response.data[0].release_dates[0].y || "Unknown",
+                //     summary: response.data[0].summary || "Unknown"
+                // };
+
+                // if(response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined) {
+                //     object.releaseDate = response.data[0].release_dates[0].y;
+                // } else {
+                //     object.releaseDate = "Unknown"
+                // }
+
+                // console.log(object);
                 
                 this.setState(prevState=>({
                     
@@ -148,7 +168,7 @@ export class Provider extends Component{
                         collection: response.data[0].collection || "Unknown",
                         gameID,
                         name: response.data[0].name || "Unknown",
-                        releaseDate:  response.data[0].release_dates[0].y || 'Unknown',
+                        releaseDate:  response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined ? response.data[0].release_dates[0].y : 'Unknown',
                         summary: response.data[0].summary || "Unknown"
 
                     }
@@ -308,7 +328,7 @@ export class Provider extends Component{
                             gameID: game.id ? game.id : "Unknown",
                             coverID: game.cover ? game.cover : 'Unknown',
                             name: game.name ? game.name : 'Unknown',
-                            releaseDate: game.release_dates ? game.release_dates[0].y : 'Unknown'
+                            releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
                         }
                     ]
                 }))
@@ -376,6 +396,31 @@ export class Provider extends Component{
            sound.play();
        }
 
+       const loadToggle = (command) => {
+           console.log(command);
+           let container = document.getElementById('appContainer');
+           let loader = document.getElementById('loaderDialog');
+           let loaderP = document.getElementById('loaderP');
+           let image = document.getElementById('loaderImg');
+           if(command === "isLoading") {
+              loader.classList.add('loaderActive');
+              loaderP.classList.add('loaderPActive');
+              container.classList.add('opacityFog');
+           } else {
+            image.classList.add('loaderFinished');
+            setTimeout(()=>{
+                image.classList.remove('loaderFinished');
+                loader.classList.remove('loaderActive');
+                loaderP.classList.remove('loaderPActive');
+                container.classList.remove('opacityFog');
+            }, 2000);
+
+            
+
+           }
+        
+       }
+
 
 
         return (
@@ -384,6 +429,7 @@ export class Provider extends Component{
                 carouselDirection: null,
                 carouselIndex: 0,
                 gameData : this.state.gameData,
+                isLoading: this.state.isLoading,
                 loaderImage: this.state.loaderImage,
                 noGameSet: this.state.noGameSet,
                 noGraphSet: this.state.noGraphSet,

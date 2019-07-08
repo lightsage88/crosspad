@@ -1,0 +1,31 @@
+@keyframes ellipsis {
+    to {
+      width: 1.5em;    
+    }
+  }
+
+
+@keyframes sonicRunsAway {
+    from {
+        opacity:1;
+        position: relative;
+        transform: translate(0px);
+    }
+
+    10% {
+        transform: translate(-200px);
+    }
+
+    80% {
+        transform: translate(5000px);
+    }
+    
+    to{
+        opacity: 0;
+    }
+    
+    
+
+
+}
+  
