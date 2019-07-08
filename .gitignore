@@ -30,3 +30,5 @@ yarn-error.log*
 IGDB API Key = 0988a2fb53fd749764964ac6dd01774b
 //should be used as the value to a 'user-key' parameter 
 //in api calls to authenticate.
+
+googleAPIKey = AIzaSyBrfwyNH6Dmg_8CGCW-PHZhfiCkIkeEwIE

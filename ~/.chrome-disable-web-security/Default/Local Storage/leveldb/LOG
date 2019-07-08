@@ -376,3 +376,6 @@
 2019/07/07-22:39:45.681 1103 Level-0 table #173: started
 2019/07/07-22:39:45.840 1103 Level-0 table #173: 26262 bytes OK
 2019/07/07-22:39:45.930 1103 Delete type=0 #169
+2019/07/07-23:42:13.233 1bfd Level-0 table #175: started
+2019/07/07-23:42:13.306 1bfd Level-0 table #175: 18273 bytes OK
+2019/07/07-23:42:13.352 1bfd Delete type=0 #172
