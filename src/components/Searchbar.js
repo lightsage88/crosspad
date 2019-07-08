@@ -1,5 +1,7 @@
 import React from 'react';
 import {Consumer} from './Context';
+import Accordion from 'react-bootstrap/Accordion';
+
 import PropTypes from 'prop-types';
 
 
