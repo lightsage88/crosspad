@@ -379,3 +379,45 @@
 2019/07/07-23:42:13.233 1bfd Level-0 table #175: started
 2019/07/07-23:42:13.306 1bfd Level-0 table #175: 18273 bytes OK
 2019/07/07-23:42:13.352 1bfd Delete type=0 #172
+2019/07/08-00:30:19.884 2738 Level-0 table #177: started
+2019/07/08-00:30:19.938 2738 Level-0 table #177: 21588 bytes OK
+2019/07/08-00:30:19.996 2738 Delete type=0 #174
+2019/07/08-00:30:21.339 2738 Level-0 table #179: started
+2019/07/08-00:30:21.425 2738 Level-0 table #179: 13736 bytes OK
+2019/07/08-00:30:21.483 2738 Delete type=0 #176
+2019/07/08-00:30:21.484 273b Compacting 4@0 + 1@1 files
+2019/07/08-00:30:21.614 273b Generated table #180@0: 1527 keys, 706791 bytes
+2019/07/08-00:30:21.614 273b Compacted 4@0 + 1@1 files => 706791 bytes
+2019/07/08-00:30:21.661 273b compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/08-00:30:21.662 273b Delete type=2 #171
+2019/07/08-00:30:21.662 273b Delete type=2 #173
+2019/07/08-00:30:21.662 273b Delete type=2 #177
+2019/07/08-00:30:21.663 273b Delete type=2 #175
+2019/07/08-00:30:21.663 273b Delete type=2 #179
+2019/07/08-02:06:21.339 31f8 Level-0 table #182: started
+2019/07/08-02:06:21.421 31f8 Level-0 table #182: 16975 bytes OK
+2019/07/08-02:06:21.479 31f8 Delete type=0 #178
+2019/07/08-06:56:21.338 3421 Level-0 table #184: started
+2019/07/08-06:56:21.401 3421 Level-0 table #184: 8663 bytes OK
+2019/07/08-06:56:21.448 3421 Delete type=0 #181
+2019/07/08-11:47:21.338 709f Level-0 table #186: started
+2019/07/08-11:47:21.386 709f Level-0 table #186: 8684 bytes OK
+2019/07/08-11:47:21.434 709f Delete type=0 #183
+2019/07/08-21:11:20.073 b50 Level-0 table #188: started
+2019/07/08-21:11:20.203 b50 Level-0 table #188: 24958 bytes OK
+2019/07/08-21:11:20.266 b50 Delete type=0 #185
+2019/07/08-21:11:20.269 b4e Compacting 4@0 + 1@1 files
+2019/07/08-21:11:20.371 b4e Generated table #189@0: 1546 keys, 708414 bytes
+2019/07/08-21:11:20.371 b4e Compacted 4@0 + 1@1 files => 708414 bytes
+2019/07/08-21:11:20.427 b4e compacted to: files[ 0 1 1 0 0 0 0 ]
+2019/07/08-21:11:20.430 b4e Delete type=2 #186
+2019/07/08-21:11:20.431 b4e Delete type=2 #184
+2019/07/08-21:11:20.432 b4e Delete type=2 #188
+2019/07/08-21:11:20.432 b4e Delete type=2 #180
+2019/07/08-21:11:20.433 b4e Delete type=2 #182
+2019/07/08-21:11:41.812 b7e Level-0 table #191: started
+2019/07/08-21:11:41.884 b7e Level-0 table #191: 14000 bytes OK
+2019/07/08-21:11:41.942 b7e Delete type=0 #187
+2019/07/08-21:12:18.230 b7e Level-0 table #193: started
+2019/07/08-21:12:18.339 b7e Level-0 table #193: 13701 bytes OK
+2019/07/08-21:12:18.395 b7e Delete type=0 #190
