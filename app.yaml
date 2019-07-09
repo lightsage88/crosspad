@@ -1,3 +1,3 @@
 runtime: nodejs10
 handlers:
-  -url: ./src/index.js
+  -url: /src/index.js
