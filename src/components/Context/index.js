@@ -86,6 +86,7 @@ export class Provider extends Component{
             console.log('have spinner show up now');
             loadToggle('isLoading');
             axios({
+                
               method: "POST",
               url: `${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
               name,
@@ -94,6 +95,9 @@ export class Provider extends Component{
               headers: {
                 'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                 'accept': 'application/json'
+              },
+              options: {
+                  crossDomain: true
               }
             })
             .then(response => {
@@ -201,13 +205,6 @@ export class Provider extends Component{
             
         }
 
-
-        
-
-
-
-        
-        
 
         const determineCover =  (gameID, context, index) => {
             console.log('determineCover running with' + gameID + context);
