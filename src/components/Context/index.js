@@ -88,7 +88,7 @@ export class Provider extends Component{
             axios({
                 
               method: "POST",
-              url: `${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
+              url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
               name,
               id
               `, 
@@ -129,7 +129,7 @@ export class Provider extends Component{
 
             axios({
                 method: "POST",
-                url: `${process.env.REACT_APP_IGDB_API_URL}/games/`,
+                url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`,
                 headers: {
                     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                     'accept': 'application/json'
@@ -208,7 +208,7 @@ export class Provider extends Component{
             console.log('determineCover running with' + gameID + context);
             axios({
                 method: "POST",
-                url: `${process.env.REACT_APP_IGDB_API_URL}/covers/`,
+                url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/covers/`,
                 headers: {
                     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                     'accept': 'application/json'
@@ -267,7 +267,7 @@ export class Provider extends Component{
        const gatherCollection = (collectionID) => {
            axios({
                method: "POST",
-               url: `${process.env.REACT_APP_IGDB_API_URL}/collections`,
+               url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/collections`,
                headers: {
                    "accept": "application/json",
                    "user-key": `${process.env.REACT_APP_IGDB_KEY}`
@@ -296,7 +296,7 @@ export class Provider extends Component{
         let franchiseGameIDString = franchiseGameIDs.toString();
         axios({
             method: "POST",
-            url: `${process.env.REACT_APP_IGDB_API_URL}/games/`,
+            url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`,
             headers: {
                 "accept": "application/json",
                 "user-key": `${process.env.REACT_APP_IGDB_KEY}`
