@@ -93,11 +93,9 @@ export class Provider extends Component{
               id
               `, 
               headers: {
+                  'access-control-allow-origin': true,
                 'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                 'accept': 'application/json'
-              },
-              options: {
-                  crossDomain: true
               }
             })
             .then(response => {
