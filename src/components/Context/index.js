@@ -441,7 +441,8 @@ export class Provider extends Component{
                     playSound: playSound,
                     updateSearchValue: updateSearchValue,
                     searchDatabaseForGame: searchDatabaseForGame,
-                    searchForSpecificGame: searchForSpecificGame
+                    searchForSpecificGame: searchForSpecificGame,
+                    sortFranchiseGamesArray: sortFranchiseGamesArray
 
                 }
             }}>

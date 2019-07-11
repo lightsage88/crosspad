@@ -5,7 +5,7 @@ const Navbar = (props) => {
 
     return (
         <div id="navbarDiv">
-            <Searchbar handleTypingChange={props.handleTypingChange} options={props.searchOptionsListItems}/>
+            <Searchbar />
         </div>
     )
 

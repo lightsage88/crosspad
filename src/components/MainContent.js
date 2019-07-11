@@ -10,7 +10,7 @@ const MainContent = () => {
     return (
             <div>
                 
-                <Tabs defaultActiveKey="profile">
+                <Tabs defaultActiveKey="home">
                     <Tab className="nintendoFont" eventKey="home" title="Game">
                        <MainGameData /> 
                     </Tab>
