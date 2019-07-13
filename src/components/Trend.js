@@ -1,5 +1,6 @@
 import React from 'react';
 import Notice from './Notice';
+import Analysis from './Analysis';
 import {Consumer} from './Context';
 const Trend = () => {
   return(
@@ -61,6 +62,7 @@ const Trend = () => {
           return ( 
             array.length !== 0 ? 
               <div>
+                <Analysis franchiseName={context.gameData.franchiseName} score={cumulativeScore} total={cumulativePossibility}/>
                 {chartStuff}
               </div>
             :

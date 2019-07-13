@@ -42,6 +42,13 @@ const RelatedGames = () => {
                     {cardItems}
                    </CardDeck>
                 )
+                :
+             (context.relatedGames).length === 0 && context.gameData !== {} ? (
+                    
+                    <h3>Hmm...your game must be one of a kind!</h3>
+
+             )
+              
              :
             
             (<Notice type="search"/>)

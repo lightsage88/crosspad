@@ -65,20 +65,28 @@ export class Provider extends Component{
             clearTimeout(this.typingTimer);
             let value = searchValue;
             this.typingTimer = setTimeout(()=>{updateSearchValue(value)}, 900);
-            var gameList = document.querySelector('.gameButtonUL');
-            gameList.style.visibility = 'visible';
+         
         
         }
 
         const updateSearchValue = (value) => {
             console.log('updateSearchValue running with: ' + value);
             this.setState(prevState => ({
-              searchValue : value 
+              searchValue : value,
+              searchOptions: [],
+
             }));
             console.log(this.state.searchValue);
             if(value !== ''){
             searchDatabaseForGame();
             }
+        }
+
+        const handleSearchResponse = (response) => {
+            this.setState(prevState=>({
+                searchOptions: response.data
+              }));
+            loadToggle('stopLoading');   
         }
 
         const searchDatabaseForGame = () => {
@@ -96,10 +104,10 @@ export class Provider extends Component{
                   'access-control-allow-origin': true,
                 'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                 'accept': 'application/json'
-              }
+              },
+              data: '',
             })
             .then(response => {
-              console.log(response);
               this.setState(prevState=>({
                 searchOptions: response.data
               }));
@@ -110,6 +118,41 @@ export class Provider extends Component{
             })
           }
 
+        const handleSpecificGameResponse = (response, gameID) => {
+            this.setState(prevState=>({
+                    
+                gameData: {
+                    ...prevState.gameData,
+                    aggregatedRating: Math.round(response.data[0].aggregated_rating) || "Unknown",
+                    collection: response.data[0].collection || "Unknown",
+                    gameID,
+                    name: response.data[0].name || "Unknown",
+                    releaseDate:  response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined ? response.data[0].release_dates[0].y : 'Unknown',
+                    summary: response.data[0].summary || "Unknown"
+
+                }
+            }))
+
+           if(response.data[0].cover){
+            determineCover(response.data[0].id, 'mainGame');
+           } else {
+               this.setState(prevState => ({
+                   gameData: {
+                       ...prevState.gameData,
+                       coverUrl: 'path to placeholder image'
+                   }
+               }))
+           }
+
+           if(response.data[0].collection){
+            gatherCollection(response.data[0].collection);
+           } else {
+               //we need to tell user that there aren't any colelctions
+               console.log('Sorry but your princess is in another castle');
+           }
+            console.log(gameID);
+        }
+
 
         //This gets fired when you click on a game name
         const searchForSpecificGame = (gameID) => {
@@ -119,11 +162,11 @@ export class Provider extends Component{
 
             console.log(gameID);
             this.setState(prevState=>({
-                searchOptions: [],
-                relatedGames: []
+                relatedGames: [],
+                gameData: {}
             }));
-            var gameList = document.querySelector('.gameButtonUL');
-            gameList.style.visibility = 'hidden';
+            // var gameList = document.querySelector('.gameButtonUL');
+            // gameList.style.visibility = 'hidden';
 
 
 
@@ -416,7 +459,42 @@ export class Provider extends Component{
         
        }
 
+       const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
+           let url = `https://cors-anywhere.herokuapp.com/{$process.env.REACT_APP_IGDB_API_URL}/games/`;
+           let data = '';
+           let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
+           let callBackCombo = ''
+           switch(type) {
+               case 'search' :
+                 url =+ `?search=${searchValue}&fields=${fieldOptions.join()}`;
+                 callBackCombo = handleSearchResponse;
+                break;
+               case 'specificGame':
+                data = `\nfields ${fieldOptions.join()}; where id=${gameId};`;
+                callBackCombo = handleSpecificGameResponse;
+               break;
+               case 'franchiseGames':
+                data =  `\nfields ${fieldOptions.join()}; where id=(${collectionOfIds.join()});`;
+                //TODO: Figure out how to deal with this other part now lol
+                
+               break;
+                default:
+                 return;
+           }
 
+           axios({
+               method: "POST",
+               url,
+               headers,
+               data
+           })
+           .then(response => {
+             callBackCombo(response);
+           })
+           .catch(err => {
+               console.error(err);
+           });
+       }
 
         return (
             <CrosspadContext.Provider value={{
