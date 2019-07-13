@@ -19,9 +19,9 @@ const MainContent = () => {
                 <Tabs defaultActiveKey={activeTab}>
                 {
                   context.searchOptions.length === 0 ? 
-                  (<Tab eventKey="results" title="Results" disabled></Tab>)
+                  (<Tab id="resultsTab" eventKey="results" title="Results" disabled></Tab>)
                   :
-                  (<Tab eventKey="tesults" title="Results" >
+                  (<Tab id="resultsTab" eventKey="results" title="Results" >
                 {<Results />}
                   </Tab>)
                 }                  

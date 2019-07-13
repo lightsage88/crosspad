@@ -28,7 +28,7 @@ const Searchbar = () => {
                 return (
                     <section className='showcase'>
                         <section className="nes-container with-title">
-                        <h3 className='title retroFont'>Enter the name of a game and select an option</h3>
+                        <h3 className='title retroFont'>SEARCH</h3>
                         <form>
                             <input className='nes-input retroFont is-dark' onChange={inputChanges} type='text'>
                             </input>

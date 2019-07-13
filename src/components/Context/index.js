@@ -85,40 +85,16 @@ export class Provider extends Component{
         }
 
         const handleSearchResponse = (response) => {
+            
             this.setState(prevState=>({
                 searchOptions: response.data
               }));
             loadToggle('stopLoading');   
+            //make the active tab 'Results'
+           document.getElementById('resultsTab').click();
         }
 
-        // const searchDatabaseForGame = () => {
-        //     console.log('searchDatabase was fired');
-        //     console.log('have spinner show up now');
-        //     loadToggle('isLoading');
-        //     axios({
-                
-        //       method: "POST",
-        //       url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
-        //       name,
-        //       id
-        //       `, 
-        //       headers: {
-        //           'access-control-allow-origin': true,
-        //         'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-        //         'accept': 'application/json'
-        //       },
-        //       data: '',
-        //     })
-        //     .then(response => {
-        //       this.setState(prevState=>({
-        //         searchOptions: response.data
-        //       }));
-        //     loadToggle('stopLoading');          
-        //     })
-        //     .catch(error => {
-        //       console.error(error)
-        //     })
-        //   }
+
 
         const handleSpecificGameResponse = (response, gameID) => {
             this.setState(prevState=>({
@@ -153,99 +129,6 @@ export class Provider extends Component{
                console.log('Sorry but your princess is in another castle');
            }
             console.log(gameID);
-        }
-
-
-        //This gets fired when you click on a game name
-        const searchForSpecificGame = (gameID) => {
-            
-            //TODO: Set up Spinners
-            //TODO: Clear input field for searching once you select a game
-
-            console.log(gameID);
-            this.setState(prevState=>({
-                relatedGames: [],
-                gameData: {}
-            }));
-            // var gameList = document.querySelector('.gameButtonUL');
-            // gameList.style.visibility = 'hidden';
-
-
-
-            axios({
-                method: "POST",
-                url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`,
-                headers: {
-                    'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-                    'accept': 'application/json'
-                },
-                data: `\nfields aggregated_rating, release_dates.y, collection, name, summary, cover; where id=${gameID};`
-
-                
-            })
-            .then(response =>{
-                console.log(response);
-                //We need to do an async call and wait for investigations about the
-                //involved_companies to resolve
-                
-                //if there is a cover variable get it and do an async call, if not, make the cover in state be a 
-                //placeholder image
-                // let object = {
-                //     aggregatedRating: response.data[0].aggregated_rating || "Unknown",
-                //     collection: response.data[0].collection || "Unknown",
-                //     gameID,
-                //     name: response.data[0].name || "Unknown",
-                //     // releaseDate: response.data[0].release_dates[0].y || "Unknown",
-                //     summary: response.data[0].summary || "Unknown"
-                // };
-
-                // if(response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined) {
-                //     object.releaseDate = response.data[0].release_dates[0].y;
-                // } else {
-                //     object.releaseDate = "Unknown"
-                // }
-
-                // console.log(object);
-                
-                this.setState(prevState=>({
-                    
-                    gameData: {
-                        ...prevState.gameData,
-                        aggregatedRating: Math.round(response.data[0].aggregated_rating) || "Unknown",
-                        collection: response.data[0].collection || "Unknown",
-                        gameID,
-                        name: response.data[0].name || "Unknown",
-                        releaseDate:  response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined ? response.data[0].release_dates[0].y : 'Unknown',
-                        summary: response.data[0].summary || "Unknown"
-
-                    }
-                }))
-
-               if(response.data[0].cover){
-                determineCover(response.data[0].id, 'mainGame');
-               } else {
-                   this.setState(prevState => ({
-                       gameData: {
-                           ...prevState.gameData,
-                           coverUrl: 'path to placeholder image'
-                       }
-                   }))
-               }
-
-               if(response.data[0].collection){
-                gatherCollection(response.data[0].collection);
-               } else {
-                   //we need to tell user that there aren't any colelctions
-                   console.log('Sorry but your princess is in another castle');
-               }
-                console.log(gameID);
-
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-            
         }
 
 
@@ -324,7 +207,8 @@ export class Provider extends Component{
                let franchiseGameIDs = []
                franchiseGameIDs = (response.data[0].games).slice(0, 10);
                //need to cut down to a maximum of ten
-               getDataForFranchiseGames(franchiseGameIDs);
+            //    getDataForFranchiseGames(franchiseGameIDs);
+                requestFromGames('franchiseGames', ['name', 'cover', 'release_dates.y', 'summary', 'aggregated_rating'], '', franchiseGameIDs , '');
                this.setState(prevState => ({
                 gameData: {
                     ...prevState.gameData,
@@ -372,112 +256,6 @@ export class Provider extends Component{
             determineCover(game.gameID, null, index);
         })
        }
-
-       const getDataForFranchiseGames = (franchiseGameIDs) => {
-        let franchiseGameIDString = franchiseGameIDs.toString();
-        axios({
-            method: "POST",
-            url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`,
-            headers: {
-                "accept": "application/json",
-                "user-key": `${process.env.REACT_APP_IGDB_KEY}`
-            },
-            data: `\n fields name, cover, release_dates.y, summary, aggregated_rating; where id = (${franchiseGameIDString});`
-        })
-        .then(response => {
-            let franchiseArray = response.data;
-            franchiseArray = franchiseArray.filter(game => {
-                    return game.id !== this.state.gameData.gameID;
-            });
-            
-      
-            //for each member in the franchise array we are going to add
-            //an object for a  game in the state's relatedGames array.
-            franchiseArray.forEach(game => {
-                console.log(game);
-                this.setState(prevState => ({
-                    relatedGames: [
-                        ...prevState.relatedGames, 
-                        {
-                            aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
-                            gameID: game.id ? game.id : "Unknown",
-                            coverID: game.cover ? game.cover : 'Unknown',
-                            name: game.name ? game.name : 'Unknown',
-                            releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
-                        }
-                    ]
-                }))
-            })
-           
-      
-            console.log(this.state);
-            //for each statemember for related games, we are going to do determinecover and pass in the 
-            //game's id value and cover value
-            let arrayOfRelatedGames = this.state.relatedGames;
-            arrayOfRelatedGames.sort(sortFranchiseGamesArray);
-            arrayOfRelatedGames.forEach((game, index) => {
-                determineCover(game.gameID, null, index);
-            })
-        })
-        .catch(err => {
-            console.error(err);
-        });
-       }
-
-
-
-    //    const getDataForFranchiseGames = (franchiseGameIDs) => {
-    //     let franchiseGameIDString = franchiseGameIDs.toString();
-    //     axios({
-    //         method: "POST",
-    //         url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`,
-    //         headers: {
-    //             "accept": "application/json",
-    //             "user-key": `${process.env.REACT_APP_IGDB_KEY}`
-    //         },
-    //         data: `\n fields name, cover, release_dates.y, summary, aggregated_rating; where id = (${franchiseGameIDString});`
-    //     })
-    //     .then(response => {
-    //         let franchiseArray = response.data;
-    //         franchiseArray = franchiseArray.filter(game => {
-    //                 return game.id !== this.state.gameData.gameID;
-    //         });
-    //         return franchiseArray;
-    //     })
-    //     .then(franchiseArray => {
-    //         //for each member in the franchise array we are going to add
-    //         //an object for a  game in the state's relatedGames array.
-    //         franchiseArray.forEach(game => {
-    //             console.log(game);
-    //             this.setState(prevState => ({
-    //                 relatedGames: [
-    //                     ...prevState.relatedGames, 
-    //                     {
-    //                         aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
-    //                         gameID: game.id ? game.id : "Unknown",
-    //                         coverID: game.cover ? game.cover : 'Unknown',
-    //                         name: game.name ? game.name : 'Unknown',
-    //                         releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
-    //                     }
-    //                 ]
-    //             }))
-    //         })
-           
-    //     })
-    //     .then(()=>{
-    //         console.log(this.state);
-    //         //for each statemember for related games, we are going to do determinecover and pass in the 
-    //         //game's id value and cover value
-    //         let arrayOfRelatedGames = this.state.relatedGames;
-    //         arrayOfRelatedGames.sort(sortFranchiseGamesArray);
-    //         arrayOfRelatedGames.forEach((game, index) => {
-    //             determineCover(game.gameID, null, index);
-    //         })
-    //     })
-    //     .catch(err => {
-    //         console.error(err);
-    //     });
-    //    }
 
 
        const sortFranchiseGamesArray = (a,b) =>{
@@ -564,11 +342,15 @@ export class Provider extends Component{
                  callBackCombo = handleSearchResponse;
                 break;
                case 'specificGame':
+                this.setState(prevState => ({
+                    gameData: {},
+                    relatedGames: []
+                }))
                 data = `\nfields ${fieldData}; where id=${gameId};`;
                 callBackCombo = handleSpecificGameResponse;
                break;
                case 'franchiseGames':
-                data =  `\nfields ${fieldData}; where id=(${collectionOfIds.join()});`;
+                data =  `\nfields ${fieldData}; where id=(${collectionOfIds.toString()});`;
                 callBackCombo= handleFranchiseGamesResponse;
 
                break;
@@ -614,11 +396,9 @@ export class Provider extends Component{
                     handleTypingChange: handleTypingChange,
                     hoverIntoButton: hoverIntoButton,
                     playSound: playSound,
+                    requestFromGames: requestFromGames,
                     updateSearchValue: updateSearchValue,
-                    // searchDatabaseForGame: searchDatabaseForGame,
-                    searchForSpecificGame: searchForSpecificGame,
                     sortFranchiseGamesArray: sortFranchiseGamesArray
-
                 }
             }}>
                 {this.props.children}

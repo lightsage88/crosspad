@@ -10,7 +10,7 @@ const Results = () => {
                 const options = context.searchOptions.map((option, index) => {
                     return <li  className='liButtonWrapper' 
                                 key={index} 
-                                onClick={()=>{context.actions.searchForSpecificGame(option.id)}}>
+                                onClick={(()=>(context.actions.requestFromGames('specificGame', ['aggregated_rating', 'release_dates.y', 'collection', 'name', 'summary', 'cover'], option.id, '', '')))} >
                             <button id={index + 'gameButton'} 
                                     type='button' 
                                     onClick={()=>{context.actions.playSound('coin')}}
