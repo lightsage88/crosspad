@@ -78,7 +78,9 @@ export class Provider extends Component{
             }));
             console.log(this.state.searchValue);
             if(value !== ''){
-            searchDatabaseForGame();
+            loadToggle('isLoading');
+            // searchDatabaseForGame();
+            requestFromGames('search', ['name','id'], '', '', this.state.searchValue)
             }
         }
 
@@ -89,34 +91,34 @@ export class Provider extends Component{
             loadToggle('stopLoading');   
         }
 
-        const searchDatabaseForGame = () => {
-            console.log('searchDatabase was fired');
-            console.log('have spinner show up now');
-            loadToggle('isLoading');
-            axios({
+        // const searchDatabaseForGame = () => {
+        //     console.log('searchDatabase was fired');
+        //     console.log('have spinner show up now');
+        //     loadToggle('isLoading');
+        //     axios({
                 
-              method: "POST",
-              url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
-              name,
-              id
-              `, 
-              headers: {
-                  'access-control-allow-origin': true,
-                'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-                'accept': 'application/json'
-              },
-              data: '',
-            })
-            .then(response => {
-              this.setState(prevState=>({
-                searchOptions: response.data
-              }));
-            loadToggle('stopLoading');          
-            })
-            .catch(error => {
-              console.error(error)
-            })
-          }
+        //       method: "POST",
+        //       url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/?search=${this.state.searchValue}&fields=
+        //       name,
+        //       id
+        //       `, 
+        //       headers: {
+        //           'access-control-allow-origin': true,
+        //         'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
+        //         'accept': 'application/json'
+        //       },
+        //       data: '',
+        //     })
+        //     .then(response => {
+        //       this.setState(prevState=>({
+        //         searchOptions: response.data
+        //       }));
+        //     loadToggle('stopLoading');          
+        //     })
+        //     .catch(error => {
+        //       console.error(error)
+        //     })
+        //   }
 
         const handleSpecificGameResponse = (response, gameID) => {
             this.setState(prevState=>({
@@ -335,6 +337,42 @@ export class Provider extends Component{
            });
        }
 
+       const handleFranchiseGamesResponse = (response) => {
+        let franchiseArray = response.data;
+        franchiseArray = franchiseArray.filter(game => {
+                return game.id !== this.state.gameData.gameID;
+        });
+        
+  
+        //for each member in the franchise array we are going to add
+        //an object for a  game in the state's relatedGames array.
+        franchiseArray.forEach(game => {
+            console.log(game);
+            this.setState(prevState => ({
+                relatedGames: [
+                    ...prevState.relatedGames, 
+                    {
+                        aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
+                        gameID: game.id ? game.id : "Unknown",
+                        coverID: game.cover ? game.cover : 'Unknown',
+                        name: game.name ? game.name : 'Unknown',
+                        releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
+                    }
+                ]
+            }))
+        })
+       
+  
+        console.log(this.state);
+        //for each statemember for related games, we are going to do determinecover and pass in the 
+        //game's id value and cover value
+        let arrayOfRelatedGames = this.state.relatedGames;
+        arrayOfRelatedGames.sort(sortFranchiseGamesArray);
+        arrayOfRelatedGames.forEach((game, index) => {
+            determineCover(game.gameID, null, index);
+        })
+       }
+
        const getDataForFranchiseGames = (franchiseGameIDs) => {
         let franchiseGameIDString = franchiseGameIDs.toString();
         axios({
@@ -351,9 +389,8 @@ export class Provider extends Component{
             franchiseArray = franchiseArray.filter(game => {
                     return game.id !== this.state.gameData.gameID;
             });
-            return franchiseArray;
-        })
-        .then(franchiseArray => {
+            
+      
             //for each member in the franchise array we are going to add
             //an object for a  game in the state's relatedGames array.
             franchiseArray.forEach(game => {
@@ -372,8 +409,7 @@ export class Provider extends Component{
                 }))
             })
            
-        })
-        .then(()=>{
+      
             console.log(this.state);
             //for each statemember for related games, we are going to do determinecover and pass in the 
             //game's id value and cover value
@@ -387,6 +423,62 @@ export class Provider extends Component{
             console.error(err);
         });
        }
+
+
+
+    //    const getDataForFranchiseGames = (franchiseGameIDs) => {
+    //     let franchiseGameIDString = franchiseGameIDs.toString();
+    //     axios({
+    //         method: "POST",
+    //         url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`,
+    //         headers: {
+    //             "accept": "application/json",
+    //             "user-key": `${process.env.REACT_APP_IGDB_KEY}`
+    //         },
+    //         data: `\n fields name, cover, release_dates.y, summary, aggregated_rating; where id = (${franchiseGameIDString});`
+    //     })
+    //     .then(response => {
+    //         let franchiseArray = response.data;
+    //         franchiseArray = franchiseArray.filter(game => {
+    //                 return game.id !== this.state.gameData.gameID;
+    //         });
+    //         return franchiseArray;
+    //     })
+    //     .then(franchiseArray => {
+    //         //for each member in the franchise array we are going to add
+    //         //an object for a  game in the state's relatedGames array.
+    //         franchiseArray.forEach(game => {
+    //             console.log(game);
+    //             this.setState(prevState => ({
+    //                 relatedGames: [
+    //                     ...prevState.relatedGames, 
+    //                     {
+    //                         aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
+    //                         gameID: game.id ? game.id : "Unknown",
+    //                         coverID: game.cover ? game.cover : 'Unknown',
+    //                         name: game.name ? game.name : 'Unknown',
+    //                         releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
+    //                     }
+    //                 ]
+    //             }))
+    //         })
+           
+    //     })
+    //     .then(()=>{
+    //         console.log(this.state);
+    //         //for each statemember for related games, we are going to do determinecover and pass in the 
+    //         //game's id value and cover value
+    //         let arrayOfRelatedGames = this.state.relatedGames;
+    //         arrayOfRelatedGames.sort(sortFranchiseGamesArray);
+    //         arrayOfRelatedGames.forEach((game, index) => {
+    //             determineCover(game.gameID, null, index);
+    //         })
+    //     })
+    //     .catch(err => {
+    //         console.error(err);
+    //     });
+    //    }
+
 
        const sortFranchiseGamesArray = (a,b) =>{
         
@@ -460,23 +552,25 @@ export class Provider extends Component{
        }
 
        const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
-           let url = `https://cors-anywhere.herokuapp.com/{$process.env.REACT_APP_IGDB_API_URL}/games/`;
+           console.log(fieldOptions);
+           let url = `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`;
            let data = '';
            let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
+           let fieldData = fieldOptions.length > 0 ? fieldOptions.join() : '';
            let callBackCombo = ''
            switch(type) {
                case 'search' :
-                 url =+ `?search=${searchValue}&fields=${fieldOptions.join()}`;
+                 url += `?search=${searchValue}&fields=${fieldData}`;
                  callBackCombo = handleSearchResponse;
                 break;
                case 'specificGame':
-                data = `\nfields ${fieldOptions.join()}; where id=${gameId};`;
+                data = `\nfields ${fieldData}; where id=${gameId};`;
                 callBackCombo = handleSpecificGameResponse;
                break;
                case 'franchiseGames':
-                data =  `\nfields ${fieldOptions.join()}; where id=(${collectionOfIds.join()});`;
-                //TODO: Figure out how to deal with this other part now lol
-                
+                data =  `\nfields ${fieldData}; where id=(${collectionOfIds.join()});`;
+                callBackCombo= handleFranchiseGamesResponse;
+
                break;
                 default:
                  return;
@@ -485,7 +579,10 @@ export class Provider extends Component{
            axios({
                method: "POST",
                url,
-               headers,
+               headers : {
+                   'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
+                   'accept': 'application/json'
+               },
                data
            })
            .then(response => {
@@ -518,7 +615,7 @@ export class Provider extends Component{
                     hoverIntoButton: hoverIntoButton,
                     playSound: playSound,
                     updateSearchValue: updateSearchValue,
-                    searchDatabaseForGame: searchDatabaseForGame,
+                    // searchDatabaseForGame: searchDatabaseForGame,
                     searchForSpecificGame: searchForSpecificGame,
                     sortFranchiseGamesArray: sortFranchiseGamesArray
 
