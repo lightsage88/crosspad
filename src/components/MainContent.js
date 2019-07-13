@@ -13,7 +13,7 @@ const MainContent = () => {
       <Consumer>
         {
           context => {
-            let activeTab= context.searchOptions.length === 0 ? 'home' : 'results';
+            let activeTab= context.searchOptions.length === 0 ? 'game' : 'results';
             return (
               <div>
                 <Tabs defaultActiveKey={activeTab}>
@@ -25,7 +25,7 @@ const MainContent = () => {
                 {<Results />}
                   </Tab>)
                 }                  
-                  <Tab className="nintendoFont" eventKey="home" title="Game">
+                  <Tab className="nintendoFont" eventKey="game" title="Game">
                     <MainGameData /> 
                   </Tab>
                   <Tab className="nintendoFont" eventKey="related" title="Related">

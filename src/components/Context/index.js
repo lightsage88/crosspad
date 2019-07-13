@@ -90,8 +90,31 @@ export class Provider extends Component{
                 searchOptions: response.data
               }));
             loadToggle('stopLoading');   
-            //make the active tab 'Results'
-           document.getElementById('resultsTab').click();
+            changeTabs('results');
+        }
+
+        const changeTabs = (type) => {
+            var activeTab = document.querySelector('a.active');
+            console.log(activeTab);
+            activeTab.classList.remove('active');
+
+            let tab = '';
+            
+            switch(type) {
+                case "results":
+                    tab = document.querySelector('a[data-rb-event-key="results"]')
+                    tab.click();
+                break
+                case "game":
+                    tab = document.querySelector('a[data-rb-event-key="game"]');
+                    tab.click();
+                break
+                default:
+                    
+            
+                
+            }
+
         }
 
 
@@ -129,6 +152,7 @@ export class Provider extends Component{
                console.log('Sorry but your princess is in another castle');
            }
             console.log(gameID);
+            changeTabs('game');
         }
 
 
