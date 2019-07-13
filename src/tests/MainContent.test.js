@@ -6,7 +6,7 @@ import { exportAllDeclaration } from '@babel/types';
 
 it('renders without crashing', () => {
     const wrapper = shallow(<MainContent />);
-    expect(wrapper.find('Tab').length).toEqual(3);
+    expect(wrapper.length).toEqual(1);
 });
 
 
