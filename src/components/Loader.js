@@ -9,11 +9,11 @@ const Loader = () => {
             context => {
                
                 return (
-                    <dialog className="nes-dialog is-dark" id="loaderDialog">
+                    <dialog data-testid="loaderDialogEl" className="nes-dialog is-dark" id="loaderDialog">
                         <form method="dialog">
-                        <p id="loaderP" className="title retroFont">LOADING</p>
+                        <p data-testid="loaderPEl" id="loaderP" className="title retroFont">LOADING</p>
                         <menu id="loaderMenuEl" className="dialog-menu">
-                            <img id="loaderImg" src={context.loaderImage} />
+                            <img data-testid="loaderImgEl" id="loaderImg" src={context.loaderImage} />
                         </menu>
                         </form>
                     </dialog>

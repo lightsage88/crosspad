@@ -36,7 +36,7 @@ const Notice = (props) => {
                              </section>
                  }
                 return (
-                    <div id="noticeDiv">
+                    <div data-testid="noticeDivEl" id="noticeDiv">
                         {notice}
                     </div>
                 )

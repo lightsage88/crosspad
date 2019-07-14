@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 
 const Header = () => {
     return (
-        <div>
+        <div data-testid="headerDivEl">
         <Jumbotron className='nes-container' >
           <h1 className='snesFont'>CROSSPAD</h1>
 

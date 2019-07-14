@@ -1,13 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Trend from '../components/Trend';
-import {shallow, mount} from 'enzyme';
-import { exportAllDeclaration } from '@babel/types';
+import {render} from './test-utils';
 
-it('renders without crashing', () => {
- const wrapper = shallow(<Trend />);
- expect(wrapper.length).toEqual(1);
+it('renders Notice if there is no graph', () => {
+    const {getByTestId} = render(<Trend />);
+    const noticeDivEl = getByTestId('noticeDivEl');
+    expect(noticeDivEl).toBeInTheDocument();
 });
 
 
+//TODO: if the trend Array does have juicy stuff, wat do?
 

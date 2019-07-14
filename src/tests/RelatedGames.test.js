@@ -1,15 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import RelatedGames from '../components/RelatedGames';
-import {shallow, mount} from 'enzyme';
-import { exportAllDeclaration } from '@babel/types';
+import {render} from './test-utils';
 
-it('renders without crashing', () => {
-    const wrapper = shallow(<RelatedGames />);
-    // expect(wrapper.find('#noticeDiv').length).toEqual(1);
-    expect(wrapper.exists()).toEqual(true);
-    expect(wrapper.find('div#noticeDiv').length).toEqual(1);
+it('if there are no related games and you do not have a gameData object thats filled, it will render the notice component', () => {
+    const {getByTestId} = render(<RelatedGames />);
+    const noticeDivEl = getByTestId('noticeDivEl');
+    expect(noticeDivEl).toBeInTheDocument();
 });
+
+//TODO: figure out what to do for when you do have related games and a gameData name
+
+//TODO: figure out what to do for when you do have related games BUT NO gameData name
 
 
 

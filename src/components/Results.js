@@ -23,7 +23,7 @@ const Results = () => {
                 })
 
                 return (
-                    <ul className="gameButtonUL">
+                    <ul data-testid="resultsUlEl" className="gameButtonUL">
                     {options}
                     </ul>
            

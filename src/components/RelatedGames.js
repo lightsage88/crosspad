@@ -32,7 +32,7 @@ const RelatedGames = () => {
                    </CardDeck>
                 )
                 :
-             (context.relatedGames).length === 0 && context.gameData !== {} ? (
+             (context.relatedGames).length === 0 && context.gameData.name !== undefined ? (
                     
                     <h3>Hmm...your game must be one of a kind!</h3>
 

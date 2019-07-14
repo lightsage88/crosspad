@@ -1,14 +1,40 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Searchbar from '../components/Searchbar';
-import {shallow, mount} from 'enzyme';
+import {render, fireEvent} from './test-utils';
+import {Provider} from '../components/Context';
+import axiosMock from 'axios';
 import { exportAllDeclaration } from '@babel/types';
+import { get } from 'http';
+import { waitForDomChange, waitForElement } from '@testing-library/react';
 
-it('renders without crashing', () => {
- const wrapper = shallow(<Searchbar />);
-//  expect(wrapper.find('section').hasClass('showcase')).toEqual(false);
-expect(wrapper.exists()).toBe(true);
+
+
+describe("<Searchbar />", ()=>{
+
+    it('renders without crashing', ()=>{
+        const {getByTestId} = render(<Searchbar />);
+        const searchBarSectionEl = getByTestId('searchBarSectionEl');
+        expect(searchBarSectionEl).toBeInTheDocument();
+    });
+
+    it('fires the handleTypingChange func with the val as its argument when you type', async ()=>{
+        const {getByTestId} = render(<Searchbar/>);
+        const searchBarInputEl = getByTestId('searchBarInputEl');
+        expect(searchBarInputEl).toBeInTheDocument();
+        fireEvent.keyUp(searchBarInputEl, {key: 'X', code: 88});
+
+        const searchBarWithText = await waitForElement(()=>
+            getByTestId('searchBarInputEl')
+        )
+
+
+
+        //TODO expect(getByTestId('searchBarInputEl')).toHaveTextContent('x');
+    })
+
 });
+
+
 
 
 

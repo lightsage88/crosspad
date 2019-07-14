@@ -1,55 +1,44 @@
 import React from 'react';
-import {Provider} from '../components/Context';
 import MainContent from '../components/MainContent';
-import {shallow, mount} from 'enzyme';
+import {render} from './test-utils';
 
 
 describe('<MainContent />', ()=> {
 
-    it('renders without crashing', () => {
-        const wrapper = shallow(<MainContent />);
-        expect(wrapper.length).toEqual(1);
+    it('renders without crashing', ()=>{
+        const {getByTestId} = render(<MainContent />);
+        const mainContentDivEl = getByTestId('mainContentDivEl');
+        expect(mainContentDivEl).toBeInTheDocument();
     });
 
-    it('will have an active tab for "Game" to start off', ()=>{
-        let context = {
-            searchOptions: []
-        }
-        const wrapper = mount(
-            <Provider context={context}>
-                <MainContent />
-            </Provider>)
-        expect(wrapper.find('a.nav-item.nav-link.active').text()).toBe('Game');
+    it('will have a tab for "Game" to begin with class "active"', ()=>{
+        const {getByTestId, getByText} = render(<MainContent />);
+        const mainContentGameTabEl = getByText('Game');
+        expect(mainContentGameTabEl).toBeInTheDocument()
+        expect(mainContentGameTabEl).toHaveTextContent("Game");
+        expect(mainContentGameTabEl).toHaveClass('active');
+    })
+
+    it('will have a disabled "Results" tab if the searchOptions are empty', ()=>{
+        const {getByTestId, getByText} = render(<MainContent />);
+        const mainContentResultsTabEl = getByText('Results');
+        expect(mainContentResultsTabEl).toBeInTheDocument()
+        expect(mainContentResultsTabEl).toHaveTextContent("Results");
+        expect(mainContentResultsTabEl).toHaveClass('disabled');
+    })
+
+    it('will have tabs for "Related", "Trend""', ()=>{
+        const {getByText} = render(<MainContent />);
+        const mainContentRelatedTabEl = getByText('Related');
+        const mainContentTrendTabEl = getByText('Trend');
+        expect(mainContentRelatedTabEl).toBeInTheDocument()
+        expect(mainContentTrendTabEl).toBeInTheDocument()
+        expect(mainContentRelatedTabEl).toHaveTextContent("Related");
+        expect(mainContentTrendTabEl).toHaveTextContent('Trend');
 
     })
 
-    it('will have a disabled tab if the searchOptions are empty', ()=>{
-        let context = {
-            searchOptions: []
-        }
-        const wrapper = mount(
-            <Provider context={context}>
-                <MainContent />
-            </Provider>)
-        expect(wrapper.find('a.nav-item.nav-link.disabled').text()).toBe('Results');
-    })
-
-    it('will have tabs for "Game", "Related", "Trend", and "Results"', ()=>{
-        let context = {
-            searchOptions: []
-        }
-        const wrapper = mount(
-            <Provider context={context}>
-                <MainContent />
-            </Provider>)
-        expect(wrapper.find('a[data-rb-event-key="results"]').text()).toBe('Results');
-        expect(wrapper.find('a[data-rb-event-key="game"]').text()).toBe('Game');
-        expect(wrapper.find('a[data-rb-event-key="related"]').text()).toBe('Related');
-        expect(wrapper.find('a[data-rb-event-key="trend"]').text()).toBe('Trend');
-
-    })
-
-    // it('will have the "Results" tab active if there is at least one searchOptions element', ()=>{
+    // TODO: it('will have the "Results" tab active if there is at least one searchOptions element', ()=>{
     //     let context = {
     //         searchOptions: ['Super Smash Bros. Ultimate']
     //     }

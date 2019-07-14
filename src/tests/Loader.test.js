@@ -1,34 +1,30 @@
 import React from 'react';
-import sonic from '../picturesForCrosspad/sonic.gif';
-import {Provider} from '../components/Context';
 import Loader from '../components/Loader';
-import {shallow, mount} from 'enzyme';
+import {render} from './test-utils';
+import { exportAllDeclaration } from '@babel/types';
 
-const context = {
-    loaderImage: sonic
-};
+it('renders without crashing', ()=>{
+    const {getByTestId} = render(<Loader />);
+    const loaderDialogEl = getByTestId('loaderDialogEl');
+    expect(loaderDialogEl).toBeInTheDocument();
+});
 
-
-
-
-describe('Loader', () => {
-    it('renders without crashing', () => {
-    
-        const wrapper = shallow(<Loader />);
-        expect(wrapper.find('#loaderDialog').exists()).toEqual(false);
-    
-    });
-
-        
-    
-
-
-    it('sonic', ()=> {
-        const wrapper = mount(<Provider context={context}><Loader /></Provider>);
-        expect(wrapper.find('img#loaderImg').length).toEqual(1);
-        expect(wrapper.find('img#loaderImg').html()).toEqual(`<img id="loaderImg" src="sonic.gif">`);
-    })
+it('renders one of several images in #loaderImg', ()=>{
+    const {getByTestId} = render(<Loader />);
+    const imgEl = getByTestId('loaderImgEl');
+    console.log(imgEl);
+    expect(imgEl.src).toBe('http://localhost/sonic.gif');
 })
+
+it('renders "LOADING"', ()=>{
+    const {getByTestId} = render(<Loader />);
+    const loaderPEl = getByTestId('loaderPEl');
+    expect(loaderPEl).toHaveTextContent('LOADING');
+})
+
+
+
+
 
 
 

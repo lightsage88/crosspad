@@ -1,13 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Navbar from '../components/Navbar';
-import {shallow, mount} from 'enzyme';
-import { exportAllDeclaration } from '@babel/types';
+import {render} from './test-utils';
 
-it('renders without crashing', () => {
-    const wrapper = shallow(<Navbar />);
-    expect(wrapper.find('#navbarDiv').length).toEqual(1);
+it('renders without crashing', ()=>{
+    const {getByTestId} = render(<Navbar />);
+    const navbarDivEl = getByTestId('navbarDivEl');
+    expect(navbarDivEl).toBeInTheDocument();
 });
-
-
 

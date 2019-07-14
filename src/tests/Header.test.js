@@ -1,12 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Header from '../components/Header';
-import {shallow} from 'enzyme';
+import {render} from './test-utils';
+import { exportAllDeclaration } from '@babel/types';
 
-it('renders without crashing', () => {
-  const wrapper = shallow(<Header />);
-  expect(wrapper.find('h1').hasClass('snesFont')).toBe(true);
-});
+describe('<Header />', ()=>{
+
+  it('renders w/o crashing', ()=>{
+    const {getByTestId} = render(<Header/>);
+    const headerDivEl = getByTestId("headerDivEl");
+    expect(headerDivEl).toBeInTheDocument();
+  });
+
+
+})
+
+
+
+
+
 
 
 

@@ -4,7 +4,7 @@ import Searchbar from './Searchbar';
 const Navbar = (props) => {
 
     return (
-        <div id="navbarDiv">
+        <div data-testid="navbarDivEl" id="navbarDiv">
             <Searchbar />
         </div>
     )

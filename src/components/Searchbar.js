@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 const Searchbar = () => {
 
     
-//onMouseOver={context.actions.hoverIntoButton} 
     return (
         <Consumer>
         
@@ -26,11 +25,11 @@ const Searchbar = () => {
 
 
                 return (
-                    <section className='showcase'>
+                    <section data-testid="searchBarSectionEl" className='showcase'>
                         <section className="nes-container with-title">
                         <h3 className='title retroFont'>SEARCH</h3>
                         <form>
-                            <input className='nes-input retroFont is-dark' onChange={inputChanges} type='text'>
+                            <input data-testid="searchBarInputEl" className='nes-input retroFont is-dark' onChange={inputChanges} type='text'>
                             </input>
                         </form>
                         </section>

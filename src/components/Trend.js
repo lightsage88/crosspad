@@ -10,6 +10,7 @@ const Trend = () => {
           let cumulativeScore = 0;
           let cumulativePossibility =0;
           let array = [];
+          
           array.push(context.gameData);
           if((context.relatedGames).length > 0) {
             (context.relatedGames).forEach(game => {
@@ -59,8 +60,12 @@ const Trend = () => {
                   </div>
           })
 
+          if(!context.gameData.name) {
+            array = null
+          }
+
           return ( 
-            array.length !== 0 ? 
+            array !== null && array.length !== 0   ? 
               <div>
                 <Analysis franchiseName={context.gameData.franchiseName} score={cumulativeScore} total={cumulativePossibility}/>
                 {chartStuff}
