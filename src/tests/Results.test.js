@@ -16,7 +16,7 @@ describe('Results', ()=>{
             searchOptions: ['Mario', 'Zelda','Sonic']
         };
 
-        const wrapper = render(<Provider value={{searchOptions: ['Mario']}}><Results /></Provider>,);
+        const wrapper = mount(<Provider value={{searchOptions: ['Mario']}}><Results /></Provider>,);
         console.log(<Provider />)
 
         console.log(wrapper);
