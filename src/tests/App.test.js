@@ -34,6 +34,7 @@ const context = {
 }
 };
  const wrapper = shallow(<App />, {context})
+ console.log(context);
  expect(wrapper.hasClass('App')).toBe(true);
 });
 

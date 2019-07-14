@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'; 
 import {Consumer} from './Context';
 
 const Loader = () => {
@@ -6,6 +7,7 @@ const Loader = () => {
         <Consumer>
         {
             context => {
+               
                 return (
                     <dialog className="nes-dialog is-dark" id="loaderDialog">
                         <form method="dialog">
@@ -22,6 +24,8 @@ const Loader = () => {
 
     )
 }
+
+
 
 
 export default Loader;

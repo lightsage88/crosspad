@@ -1,16 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import sonic from '../picturesForCrosspad/sonic.gif';
+import {Provider, Consumer, Context} from '../components/Context';
 import Loader from '../components/Loader';
-import {shallow, mount} from 'enzyme';
-import { exportAllDeclaration } from '@babel/types';
+import {shallow, mount, render} from 'enzyme';
 
-it('renders without crashing', () => {
+const context = {
+    loaderImage: 'sonic.gif'
+};
+
+
+
+
+describe('Loader', () => {
+    it('renders without crashing', () => {
     
-    const wrapper = shallow(<Loader />);
-    expect(wrapper.find('#loaderDialog').exists()).toEqual(false);
+        const wrapper = shallow(<Loader />);
+        expect(wrapper.find('#loaderDialog').exists()).toEqual(false);
+    
+    });
 
-    //TODO: This needs to actually have some stand in for context, this is not a true test that is actually correct!!!
-});
+        
+    
+
+
+    it('sonic', ()=> {
+        const wrapper = mount(<Provider context={context}><Loader /></Provider>);
+        expect(wrapper.find('img#loaderImg').length).toEqual(1);
+        expect(wrapper.find('img#loaderImg').html()).toEqual(`<img id="loaderImg" src="sonic.gif">`);
+    })
+})
+
 
 
 
