@@ -16,13 +16,38 @@ describe('Results', ()=>{
             searchOptions: ['Mario', 'Zelda','Sonic']
         };
 
-        const wrapper = mount(<Provider value={{searchOptions: ['Mario']}}><Results /></Provider>,);
-        console.log(<Provider />)
+        const wrapper = mount(<Provider value={{searchOptions: ['Mario']}}><Results /></Provider>);
+        // console.log(<Provider value={{searchOptions: ['Mario']}}/>);
+        // console.log(<Provider value={{searchOptions: ['Mario']}}><Results context={'./Provider'.props}/></Provider>);
 
-        console.log(wrapper);
+        // console.log(wrapper);
         expect(wrapper.find('ul.gameButtonUL').length).toEqual(1);
         
         // expect(wrapper.find('li').html()).not.toEqual("Mario");
         //TODO: will have to cover this with UI testing
     })
+
+    // it('does', ()=>{
+    //     const outer = mount(
+    //     <Provider >
+    //         <Results />
+    //     </Provider>
+    //     );
+    //     console.log(outer);
+
+    //     const Children = outer.prop('children');
+    //     console.log(Children);
+
+    //     const wrapper = mount(<Children context={{searchOptions: ["Mario"]}}/>);
+    //     console.log(wrapper);
+    //     console.log(wrapper.debug());
+    //     // expect(wrapper.find('ul.gameButtonUL').length).toBe(1);
+
+    // })
+
+    // it('persists', ()=>{
+
+    // })
+
+
 })

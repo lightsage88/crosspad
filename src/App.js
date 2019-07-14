@@ -19,7 +19,7 @@ class App extends Component {
    
 
     return (
-      <div className="App">
+      <div data-testid="appDiv" className="App">
               
       <Loader />
         <Container id="appContainer">

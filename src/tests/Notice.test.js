@@ -4,12 +4,29 @@ import Notice from '../components/Notice';
 import {shallow, mount} from 'enzyme';
 import { exportAllDeclaration } from '@babel/types';
 
-it('renders without crashing', () => {
-    const wrapper = shallow(<Notice />);
-    // expect(wrapper.find('#noticeDiv').length).toEqual(1);
-    expect(wrapper.exists()).toEqual(true);
-    //TODO: Not a legit test, but passes so we can push to a CI
-});
+const context = {
+    searchNoticeImages : ['sonic.gif', 'john.gif']
+}
+
+describe("<Notice />", ()=>{
+
+    it('renders without crashing', () => {
+        const wrapper = mount(<Notice />);
+        // expect(wrapper.find('#noticeDiv').length).toEqual(1);
+        expect(wrapper.exists()).toEqual(true);
+        expect(wrapper.find('div#noticeDiv').length).toEqual(1);
+    });
+
+    it('searches', ()=>{
+        const wrapper = mount(shallow(<Notice type="search"context={{searchNoticeImages: ['1']}}/>).get(0));
+        expect(wrapper.exists()).toEqual(true);
+
+        console.log(wrapper);
+        console.log(wrapper.debug());
+    })
+
+
+})
 
 
 

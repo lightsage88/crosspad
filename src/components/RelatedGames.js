@@ -9,18 +9,7 @@ const RelatedGames = () => {
         <Consumer>
         {
             context => {
-                console.log('yo');
-                {/* const carouselItems = (context.relatedGames).map((game, index) =>{
-                    return <div key={index}>
-                    <Carousel.Item >
-                        <img src={game.coverUrl} alt={game.name + ' cover'}/>
-
-                    </Carousel.Item>
-                    <Carousel.Caption>
-                        <h3>{game.name}</h3>
-                    </Carousel.Caption>
-                    </div>
-                }) */}
+                
 
                 const cardItems = (context.relatedGames).map((game, index) =>{
                     return <div key={index}>
