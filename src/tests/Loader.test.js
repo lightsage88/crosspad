@@ -1,11 +1,11 @@
 import React from 'react';
 import sonic from '../picturesForCrosspad/sonic.gif';
-import {Provider, Consumer, Context} from '../components/Context';
+import {Provider} from '../components/Context';
 import Loader from '../components/Loader';
-import {shallow, mount, render} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 
 const context = {
-    loaderImage: 'sonic.gif'
+    loaderImage: sonic
 };
 
 
