@@ -21,6 +21,9 @@ const MainContent = () => {
                   context.searchOptions.length === 0 ? 
                   (<Tab id="resultsTab" eventKey="results" title="Results" disabled></Tab>)
                   :
+                  //TODO: FIgure out if this ternary operator is actually needed
+                  //because I think we took care of it in the code condensation for the 
+                  //Provider
                   (<Tab id="resultsTab" eventKey="results" title="Results" >
                 {<Results />}
                   </Tab>)
@@ -31,7 +34,7 @@ const MainContent = () => {
                   <Tab className="nintendoFont" eventKey="related" title="Related">
                     <RelatedGames />
                   </Tab>
-                  <Tab className="nintendoFont" eventKey="trent" title="Trend">
+                  <Tab className="nintendoFont" eventKey="trend" title="Trend">
                     <Trend />
                   </Tab>
                 </Tabs>

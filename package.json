@@ -1,7 +1,6 @@
 {
   "name": "crosspad",
   "version": "0.1.0",
-  "proxy": "http://localhost:3001",
   "private": true,
   "dependencies": {
     "@babel/core": "7.4.3",
