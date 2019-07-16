@@ -1,5 +1,5 @@
 import React from 'react';
-import {Consumer} from './Context';
+import {Provider, Consumer} from './Context';
 
 
 const Results = () => {

@@ -4,50 +4,53 @@ import { Card, CardImg, CardTitle, CardDeck, CardText, CardGroup,
 import Notice from './Notice';  
 import {Consumer} from './Context';
 
-const RelatedGames = () => {
-    return (
-        <Consumer>
-        {
-            context => {
-                
+const RelatedGames = (props) => {
 
-                const cardItems = (context.relatedGames).map((game, index) =>{
-                    return <div key={index}>
-                    <Card >
-                        <CardImg src={game.coverUrl} alt={game.name + ' cover'}/>
-                        <CardBody>
-                            <CardTitle>{game.name}</CardTitle>
-                            <CardText>{game.releaseDate}</CardText>
-                        </CardBody>
+    const generateCards = (props) => {
+        const cardItems = props.relatedGames.map((game, index) =>{
+            return <div key={index}>
+            <Card data-testid={'game-'+ index}>
+                <CardImg src={game.coverUrl} alt={game.name + ' cover'}/>
+                <CardBody>
+                    <CardTitle>{game.name}</CardTitle>
+                    <CardText>{game.releaseDate}</CardText>
+                </CardBody>
+    
+            </Card>
+            
+            </div>
+        });
+        return cardItems
 
-                    </Card>
-                    
-                    </div>
-                })
-               return (context.relatedGames).length > 0 ?  (
-                  
+    }
+    
 
-                   <CardDeck>
-                    {cardItems}
-                   </CardDeck>
-                )
-                :
-             (context.relatedGames).length === 0 && context.gameData.name !== undefined ? (
+    return ( 
+             (props.relatedGames.length === 0 && props.gameData.name !== undefined ? (
                     
                     <h3>Hmm...your game must be one of a kind!</h3>
 
              )
+
+             : (props.relatedGames).length > 0 ?  (
+                  
+
+                <CardDeck>
+                 {generateCards(props)}
+                </CardDeck>
+             )
+             
               
              :
             
             (<Notice type="search"/>)
 
-            }
-        }
-        </Consumer>
+            
+        
     )
     
-}
+    )}
 
+    //setup default bogie props
 
 export default RelatedGames;

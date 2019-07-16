@@ -36,7 +36,7 @@ const Notice = (props) => {
                              </section>
                  }
                 return (
-                    <div data-testid="noticeDivEl" id="noticeDiv">
+                    <div className={context.first} data-testid="noticeDivEl" id="noticeDiv">
                         {notice}
                     </div>
                 )

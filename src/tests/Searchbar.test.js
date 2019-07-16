@@ -17,20 +17,14 @@ describe("<Searchbar />", ()=>{
         expect(searchBarSectionEl).toBeInTheDocument();
     });
 
-    it('fires the handleTypingChange func with the val as its argument when you type', async ()=>{
-        const {getByTestId} = render(<Searchbar/>);
+    it('fires the handleTypingChange func with the val as its argument when you type', ()=>{
+        const {getByTestId} = render(<Searchbar />);
         const searchBarInputEl = getByTestId('searchBarInputEl');
+        const valueToInput = "Spider-Man";
         expect(searchBarInputEl).toBeInTheDocument();
-        fireEvent.keyUp(searchBarInputEl, {key: 'X', code: 88});
-
-        const searchBarWithText = await waitForElement(()=>
-            getByTestId('searchBarInputEl')
-        )
-
-
-
-        //TODO expect(getByTestId('searchBarInputEl')).toHaveTextContent('x');
-    })
+        fireEvent.change(searchBarInputEl, {target: {value: valueToInput } })
+        expect(searchBarInputEl.value).toEqual('Spider-Man');
+    });
 
 });
 

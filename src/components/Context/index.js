@@ -53,6 +53,13 @@ export class Provider extends Component{
         searchOptions: [],
         searchValue: ''    
     };
+
+    componentDidMount(nextProps){
+        this.setState(prevState => ({
+            state : {...prevState, nextProps}
+        }))
+    }
+
     typingTimer = null;
 
     searchInputBarRef = React.createRef();

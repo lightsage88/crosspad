@@ -32,7 +32,7 @@ const MainContent = () => {
                     <MainGameData /> 
                   </Tab>
                   <Tab className="nintendoFont" eventKey="related" title="Related">
-                    <RelatedGames />
+                    <RelatedGames relatedGames={context.relatedGames} gameData={context.gameData}/>
                   </Tab>
                   <Tab className="nintendoFont" eventKey="trend" title="Trend">
                     <Trend />
