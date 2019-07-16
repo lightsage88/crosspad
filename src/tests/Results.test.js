@@ -86,15 +86,5 @@ describe('Results', ()=>{
                 const resultsButton3 = getByTestId('resultsButton-3');
                 expect(resultsButton3).toBeInTheDocument();
                 expect(resultsButton3).toHaveTextContent("Super Smash TV");
-
-        
-
     })
-
-    //TODO: it('makes a list of buttons if context.searchOptions is populated', ()=>{
-        
-   
-    // })
-
-
 })
