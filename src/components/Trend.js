@@ -38,27 +38,7 @@ const Trend = (props) => {
 
           }
           
-          {/* array.push(props.gameData);
-          if((props.relatedGames).length > 0) {
-            (props.relatedGames).forEach(game => {
-              array.push(game);
-            })
-          }
-
-
-          array.sort(context.actions.sortFranchiseGamesArray);
-          let scores = array.reduce((accumulator, game) => {
-            if(game.aggregatedRating !== "Unknown") {
-            accumulator.push(game.aggregatedRating)
-            } 
-            return accumulator
-          }, []);
          
-
-          scores.forEach(item => {
-            cumulativeScore += item;
-            cumulativePossibility += 100;
-          }) */}
 
           const chartStuffGenerator = (array) => {
 
@@ -78,11 +58,11 @@ const Trend = (props) => {
               barColorClass = "nes-progress"
             }
             return <div key={index} >
-                    <h5>{game.name}</h5> 
-                    <span>{game.releaseDate}</span>
-                    <progress className={barColorClass} value={game.aggregatedRating} max="100"></progress>
-                    <a className="nes-badge">
-                      <span className="is-dark">RATING: {game.aggregatedRating}</span>
+                    <h5 data-testid={'trend/gameName-'+index}>{game.name}</h5> 
+                    <span data-testid={'trend/releaseDate-'+index}>{game.releaseDate}</span>
+                    <progress data-testid={'trend/progress-'+index} className={barColorClass} value={game.aggregatedRating} max="100"></progress>
+                    <a data-testid={'trend/badge-'+index} className="nes-badge">
+                      <span data-testid={'trend/badgeSpan-'+index} className="is-dark">RATING: {game.aggregatedRating}</span>
                     </a>
                   </div>
           })
@@ -100,7 +80,7 @@ const Trend = (props) => {
 
           return ( 
             array !== null && array.length !== 0   ? 
-              <div>
+              <div data-testid="trendDivEl">
                 <Analysis franchiseName={props.gameData.franchiseName} score={cumulativeScore} total={cumulativePossibility}/>
                 {chartStuffGenerator(array)}
               </div>
