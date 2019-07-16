@@ -11,7 +11,6 @@ describe('<MainGameData />', ()=>{
         expect(noticeDivEl).toBeInTheDocument();
     });
 
-    //TODO: Figure out how to render stuff if there is a gameData thing present.
     it('renders stuff is there is gameData info present', ()=> {
         const {getByTestId} = vanillaRender(<Provider>
             <MainGameData gameData={{
@@ -47,9 +46,16 @@ describe('<MainGameData />', ()=>{
         const mainGameDataFranchiseEL = getByTestId('mainGameDataFranchiseEL');
         expect(mainGameDataFranchiseEL).toBeInTheDocument();
         expect(mainGameDataFranchiseEL).toHaveTextContent("Metal Gear Solid");
-    })
 
-})
+        const mainGameDataTitlePEL = getByTestId('mainGameDataTitlePEL');
+        expect(mainGameDataTitlePEL).toBeInTheDocument();
+        expect(mainGameDataTitlePEL).toHaveTextContent('ABOUT Metal Gear Solid 2: Substance');
+
+        const mainGameDataSummaryPEL = getByTestId('mainGameDataSummaryPEL');
+        expect(mainGameDataSummaryPEL).toBeInTheDocument();
+        expect(mainGameDataSummaryPEL).toHaveTextContent('Metal Gear Solid 2: Substance is a re-vamped and revised edition of the original Metal Gear Solid 2: Sons of Liberty, in which Solid Snake must recover the stolen Metal Gear Ray from a group of terror…');
+    });
+});
 
 
 

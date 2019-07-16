@@ -28,8 +28,8 @@ const MainGameData = (props) => {
                             </tbody>
                         </table>
                         <section className="nes-container with-title is-centered">
-                            <p className='title snesFont'>ABOUT {props.gameData.name}</p>
-                            <p>
+                            <p data-testid="mainGameDataTitlePEL" className='title snesFont'>ABOUT {props.gameData.name}</p>
+                            <p data-testid="mainGameDataSummaryPEL">
                             {props.gameData.summary}
                             </p>
                         </section>

@@ -10,10 +10,10 @@ const Results = (props) => {
 
                 const generateOptions = (context, props) => {
                     const options = props.searchOptions.map((option, index) => {
-                    return <li  className='liButtonWrapper' 
+                    return <li data-testid={"resultsLI-" + index} className='liButtonWrapper' 
                                 key={index} 
                                 onClick={(()=>(context.actions.requestFromGames('specificGame', ['aggregated_rating', 'release_dates.y', 'collection', 'name', 'summary', 'cover'], option.id, '', '')))} >
-                            <button id={index + 'gameButton'} 
+                            <button data-testid={"resultsButton-"+index} id={index + 'gameButton'} 
                                     type='button' 
                                     onClick={()=>{context.actions.playSound('coin')}}
                                     onMouseEnter={(e)=>{context.actions.hoverIntoButton(e.target.id, 'red')}} 
