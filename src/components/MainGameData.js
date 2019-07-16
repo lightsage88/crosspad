@@ -4,13 +4,13 @@ import Notice from './Notice';
 
 
 const MainGameData = (props) => {
-    return ( props.gameData.name !== undefined ?  <div>
+    return ( props.gameData.name !== undefined ?  <div data-testid="mainGameDataDivEl">
 
                     <section id='mainGameDetails' className='nes-table-responsive'>
-                        <h1 className='nintendoFont'>
+                        <h1 data-testid="mainGameDataH1El" className='nintendoFont'>
                             {props.gameData.name}
                         </h1>
-                        <img src={props.gameData.coverUrl} />
+                        <img data-testid="mainGameImgEl" src={props.gameData.coverUrl} />
                         <table className='nes-table is-bordered is-dark snesFont'>
                             <thead>
                                 <tr>
@@ -21,9 +21,9 @@ const MainGameData = (props) => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{props.gameData.aggregatedRating}</td>
-                                    <td>{props.gameData.releaseDate}</td>
-                                    <td>{props.gameData.franchiseName}</td>
+                                    <td data-testid="mainGameDataRatingEL">{props.gameData.aggregatedRating}</td>
+                                    <td data-testid="mainGameDataReleaseDateEL">{props.gameData.releaseDate}</td>
+                                    <td data-testid="mainGameDataFranchiseEL">{props.gameData.franchiseName}</td>
                                 </tr>
                             </tbody>
                         </table>
