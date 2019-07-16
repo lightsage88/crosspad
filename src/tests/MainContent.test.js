@@ -55,24 +55,9 @@ describe('<MainContent />', ()=> {
          const container = document.body;
          const MainContentResultsTabEl = getByText("Results");
          expect(MainContentResultsTabEl).toBeInTheDocument();   
+         expect(MainContentResultsTabEl).toHaveClass('active');
 
     })
-
-    // TODO: it('will have the "Results" tab active if there is at least one searchOptions element', ()=>{
-    //     let context = {
-    //         searchOptions: ['Super Smash Bros. Ultimate']
-    //     }
-    //     const wrapper = render(
-    //         <Provider value={{searchOptions: ['1']}}>
-    //             <MainContent />
-    //         </Provider>)
-
-    //         console.log(wrapper.find('a.nav-item'));
-            
-    //     expect(wrapper.find('a.nav-item.nav-link.active').text()).toBe('Resssslts');
-
-    // })
-
 
 })
 

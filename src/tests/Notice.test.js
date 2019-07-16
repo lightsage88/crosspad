@@ -12,16 +12,11 @@ describe("<Notice />", ()=>{
         expect(noticeDivEl).toBeInTheDocument();
     });
 
-    //TODO: make tests for each of the different types of messages you can receive
+    it('displays a different type of message each time', ()=> {
+        expect(1).toBe(2);
+    })
 
-    // it('searches', ()=>{
-    //     const wrapper = mount(shallow(<Notice type="search"context={{searchNoticeImages: ['1']}}/>).get(0));
-    //     expect(wrapper.exists()).toEqual(true);
-
-    //     console.log(wrapper);
-    //     console.log(wrapper.debug());
-    // })
-
+    //TODO: 
 
 })
 

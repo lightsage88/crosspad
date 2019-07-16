@@ -46,7 +46,6 @@ it('has related games and a name for the main game', ()=>{
 
 
 })
-//TODO: figure out what to do for when you do have related games BUT NO gameData name
 
 it('will tell us there are no related games if there are none', ()=>{
 

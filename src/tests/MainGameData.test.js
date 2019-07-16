@@ -10,6 +10,9 @@ describe('<MainGameData />', ()=>{
     });
 
     //TODO: Figure out how to render stuff if there is a gameData thing present.
+    it('renders stuff is there is gameData info present', ()=> {
+        expect(1).tobe(10);
+    })
 
 })
 

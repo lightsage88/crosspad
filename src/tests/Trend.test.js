@@ -11,3 +11,7 @@ it('renders Notice if there is no graph', () => {
 
 //TODO: if the trend Array does have juicy stuff, wat do?
 
+if('the trend Array has info, we show it ', ()=> {
+    expect(1).toBe(10);
+});
+

@@ -11,6 +11,10 @@ describe('Results', ()=>{
         expect(resultsUlEl).toBeInTheDocument();
     });
 
+    it('makes a list of buttons to press if searchOptions is populated', ()=> {
+        expect(1).toBe(2);
+    })
+
     //TODO: it('makes a list of buttons if context.searchOptions is populated', ()=>{
         
    
