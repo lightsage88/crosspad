@@ -11,8 +11,8 @@ const CrosspadProvider = ({children}) => {
     )
 }
 
-const customRender = (ui, options) => 
-    render(ui, {wrapper: CrosspadProvider, options})
+const customRender = (ui) => 
+    render(ui, {wrapper: CrosspadProvider})
 
 
 export * from '@testing-library/react';
