@@ -2,12 +2,14 @@ import React from 'react';
 import {Provider, Consumer} from './Context';
 
 
-const Results = () => {
+const Results = (props) => {
     return (
     <Consumer>
         {
             context=> {
-                const options = context.searchOptions.map((option, index) => {
+
+                const generateOptions = (context, props) => {
+                    const options = props.searchOptions.map((option, index) => {
                     return <li  className='liButtonWrapper' 
                                 key={index} 
                                 onClick={(()=>(context.actions.requestFromGames('specificGame', ['aggregated_rating', 'release_dates.y', 'collection', 'name', 'summary', 'cover'], option.id, '', '')))} >
@@ -20,11 +22,15 @@ const Results = () => {
                                 {option.name}
                             </button>
                             </li>
-                })
+                    })
+                    return options
+                }
+
+                
 
                 return (
                     <ul data-testid="resultsUlEl" className="gameButtonUL">
-                    {options}
+                    {generateOptions(context, props)}
                     </ul>
            
                 );
@@ -37,6 +43,10 @@ const Results = () => {
 
    
     )
+}
+
+Results.defaultProps = {
+    searchOptions: []
 }
 
 export default Results;

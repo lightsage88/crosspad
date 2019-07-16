@@ -10,10 +10,10 @@ const RelatedGames = (props) => {
         const cardItems = props.relatedGames.map((game, index) =>{
             return <div key={index}>
             <Card data-testid={'game-'+ index}>
-                <CardImg src={game.coverUrl} alt={game.name + ' cover'}/>
+                <CardImg data-testid={'gameImage-' + index} src={game.coverUrl} alt={game.name + ' cover'}/>
                 <CardBody>
-                    <CardTitle>{game.name}</CardTitle>
-                    <CardText>{game.releaseDate}</CardText>
+                    <CardTitle data-testid={'gameTitle-' + index }>{game.name}</CardTitle>
+                    <CardText data-testid={'gameReleaseDate-' + index}>{game.releaseDate}</CardText>
                 </CardBody>
     
             </Card>
@@ -28,7 +28,7 @@ const RelatedGames = (props) => {
     return ( 
              (props.relatedGames.length === 0 && props.gameData.name !== undefined ? (
                     
-                    <h3>Hmm...your game must be one of a kind!</h3>
+                    <h3 data-testid="noOtherGamesEl">Hmm...your game must be one of a kind!</h3>
 
              )
 
@@ -52,5 +52,11 @@ const RelatedGames = (props) => {
     )}
 
     //setup default bogie props
+    RelatedGames.defaultProps = {
+        relatedGames:[],
+        gameData: {
+            name: undefined
+        }
+    }
 
 export default RelatedGames;

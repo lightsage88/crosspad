@@ -1,6 +1,7 @@
 import React from 'react';
 import MainContent from '../components/MainContent';
 import {render} from './test-utils';
+import {render as vanillaRender} from '@testing-library/react';
 
 
 describe('<MainContent />', ()=> {
@@ -35,6 +36,25 @@ describe('<MainContent />', ()=> {
         expect(mainContentTrendTabEl).toBeInTheDocument()
         expect(mainContentRelatedTabEl).toHaveTextContent("Related");
         expect(mainContentTrendTabEl).toHaveTextContent('Trend');
+
+    })
+
+    it('will have the "Results" tab active if there is at least one searchOptions element', ()=>{
+        const {getByTestId, getByDisplayValue, getByText} = render(
+        <MainContent 
+            searchOptions={
+                [
+                    {
+                        id: 1025,
+                        name: "Zelda II: The Adventure of Link"
+                    }
+                ]
+            }
+         
+        />);
+         const container = document.body;
+         const MainContentResultsTabEl = getByText("Results");
+         expect(MainContentResultsTabEl).toBeInTheDocument();   
 
     })
 

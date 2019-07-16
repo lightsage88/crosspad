@@ -101,12 +101,10 @@ export class Provider extends Component{
         }
 
         const changeTabs = (type) => {
-            var activeTab = document.querySelector('a.active');
-            console.log(activeTab);
+            let activeTab = document.querySelector('a.active');
+            let tab = '';
             activeTab.classList.remove('active');
 
-            let tab = '';
-            
             switch(type) {
                 case "results":
                     tab = document.querySelector('a[data-rb-event-key="results"]')

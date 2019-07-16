@@ -1,21 +1,16 @@
 import React, {Component} from 'react';
-import {Consumer} from './Context';
 import Notice from './Notice';
 
 
 
-const MainGameData = () => {
-    return (
-        <Consumer>
-        {
-            context => {
-            return ( context.gameData.name !== undefined ?  <div>
+const MainGameData = (props) => {
+    return ( props.gameData.name !== undefined ?  <div>
 
                     <section id='mainGameDetails' className='nes-table-responsive'>
                         <h1 className='nintendoFont'>
-                            {context.gameData.name}
+                            {props.gameData.name}
                         </h1>
-                        <img src={context.gameData.coverUrl} />
+                        <img src={props.gameData.coverUrl} />
                         <table className='nes-table is-bordered is-dark snesFont'>
                             <thead>
                                 <tr>
@@ -26,29 +21,28 @@ const MainGameData = () => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{context.gameData.aggregatedRating}</td>
-                                    <td>{context.gameData.releaseDate}</td>
-                                    <td>{context.gameData.franchiseName}</td>
+                                    <td>{props.gameData.aggregatedRating}</td>
+                                    <td>{props.gameData.releaseDate}</td>
+                                    <td>{props.gameData.franchiseName}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <section className="nes-container with-title is-centered">
-                            <p className='title snesFont'>ABOUT {context.gameData.name}</p>
+                            <p className='title snesFont'>ABOUT {props.gameData.name}</p>
                             <p>
-                            {context.gameData.summary}
+                            {props.gameData.summary}
                             </p>
                         </section>
                     </section>
                 </div>
                 :
-                (<Notice type='noGame' />)
-            )
-
-            }
-        }
-        </Consumer>
+                (<Notice type='noGame' />)         
     )
     
+}
+
+MainGameData.defaultProps = {
+    gameData: {}
 }
 
 export default MainGameData;

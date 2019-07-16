@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Consumer} from './Context'
 import MainGameData from './MainGameData';
 import RelatedGames from './RelatedGames';
 import Results from './Results';
@@ -8,42 +7,52 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
 
-const MainContent = () => {
+const MainContent = (props) => {
+  let activeTab= props.searchOptions.length === 0 ? 'game' : 'results';
+
     return (
-      <Consumer>
-        {
-          context => {
-            let activeTab= context.searchOptions.length === 0 ? 'game' : 'results';
-            return (
+     
+       
+            
               <div data-testid="mainContentDivEl">
                 <Tabs defaultActiveKey={activeTab}>
                 {
-                  context.searchOptions.length === 0 ? 
+                  props.searchOptions.length === 0 ? 
                   (<Tab id="resultsTab" eventKey="results" title="Results" disabled></Tab>)
                   :
                   //TODO: FIgure out if this ternary operator is actually needed
                   //because I think we took care of it in the code condensation for the 
                   //Provider
                   (<Tab id="resultsTab" eventKey="results" title="Results" >
-                {<Results />}
+                {<Results searchOptions={props.searchOptions}/>}
                   </Tab>)
                 }                  
                   <Tab data-testid="mainContentGameTabEl" className="nintendoFont" eventKey="game" title="Game">
-                    <MainGameData /> 
+                    <MainGameData gameData={props.gameData}/> 
                   </Tab>
                   <Tab className="nintendoFont" eventKey="related" title="Related">
-                    <RelatedGames relatedGames={context.relatedGames} gameData={context.gameData}/>
+                    <RelatedGames relatedGames={props.relatedGames} gameData={props.gameData}/>
                   </Tab>
                   <Tab className="nintendoFont" eventKey="trend" title="Trend">
-                    <Trend />
+                    <Trend 
+                      gameData={props.gameData}
+                      relatedGames={props.relatedGames}
+                    />
                   </Tab>
                 </Tabs>
               </div>
-            )
-          }
-        }
-      </Consumer>
-    );  
+    )
+        
+}
+
+MainContent.defaultProps = {
+  searchOptions: [
+    
+  ],
+  relatedGames: [
+    {}
+  ],
+  gameData: {}
 }
 
 export default MainContent;

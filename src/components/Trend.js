@@ -2,7 +2,7 @@ import React from 'react';
 import Notice from './Notice';
 import Analysis from './Analysis';
 import {Consumer} from './Context';
-const Trend = () => {
+const Trend = (props) => {
   return(
     <Consumer>
       {
@@ -10,13 +10,42 @@ const Trend = () => {
           let cumulativeScore = 0;
           let cumulativePossibility =0;
           let array = [];
+
+          const arrayManager = (context, props) => {
+              array.push(props.gameData);
+            if((props.relatedGames).length > 0) {
+              (props.relatedGames).forEach(game => {
+                array.push(game);
+              })
+            }
+
+
+            array.sort(context.actions.sortFranchiseGamesArray);
+            let scores = array.reduce((accumulator, game) => {
+              if(game.aggregatedRating !== "Unknown") {
+              accumulator.push(game.aggregatedRating)
+              } 
+              return accumulator
+            }, []);
           
-          array.push(context.gameData);
-          if((context.relatedGames).length > 0) {
-            (context.relatedGames).forEach(game => {
+
+            scores.forEach(item => {
+              cumulativeScore += item;
+              cumulativePossibility += 100;
+            })
+
+            return array
+
+          }
+          
+          {/* array.push(props.gameData);
+          if((props.relatedGames).length > 0) {
+            (props.relatedGames).forEach(game => {
               array.push(game);
             })
           }
+
+
           array.sort(context.actions.sortFranchiseGamesArray);
           let scores = array.reduce((accumulator, game) => {
             if(game.aggregatedRating !== "Unknown") {
@@ -24,18 +53,16 @@ const Trend = () => {
             } 
             return accumulator
           }, []);
-          console.log(scores);
          
 
           scores.forEach(item => {
             cumulativeScore += item;
             cumulativePossibility += 100;
-          })
+          }) */}
 
-          console.log(cumulativeScore, cumulativePossibility);
-          
+          const chartStuffGenerator = (array) => {
 
-          const chartStuff = array.map((game, index)=>{
+            const chartStuff = array.map((game, index)=>{
             let barColorClass = '';
             let percentage = game.aggregatedRating / 100;
 
@@ -59,16 +86,23 @@ const Trend = () => {
                     </a>
                   </div>
           })
+           return chartStuff;
+          }
 
-          if(!context.gameData.name) {
+          
+
+          if(!props.gameData.name) {
             array = null
+          } else {
+
+          arrayManager(context, props);
           }
 
           return ( 
             array !== null && array.length !== 0   ? 
               <div>
-                <Analysis franchiseName={context.gameData.franchiseName} score={cumulativeScore} total={cumulativePossibility}/>
-                {chartStuff}
+                <Analysis franchiseName={props.gameData.franchiseName} score={cumulativeScore} total={cumulativePossibility}/>
+                {chartStuffGenerator(array)}
               </div>
             :
               <div>
@@ -80,6 +114,11 @@ const Trend = () => {
     </Consumer>
   )
     
+}
+
+Trend.defaultProps = {
+  gameData: {},
+  relatedGames: []
 }
 
 export default Trend;
