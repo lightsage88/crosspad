@@ -12,7 +12,6 @@ it('renders without crashing', ()=>{
 it('renders one of several images in #loaderImg', ()=>{
     const {getByTestId} = render(<Loader />);
     const imgEl = getByTestId('loaderImgEl');
-    console.log(imgEl);
     expect(imgEl.src).toBe('http://localhost/sonic.gif');
 })
 

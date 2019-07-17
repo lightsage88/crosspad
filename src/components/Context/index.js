@@ -101,7 +101,7 @@ export class Provider extends Component{
         }
 
         const changeTabs = (type) => {
-            let activeTab = document.querySelector('a.active');
+            var activeTab = document.querySelector('a.active');
             let tab = '';
             activeTab.classList.remove('active');
 

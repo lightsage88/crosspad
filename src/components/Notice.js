@@ -46,6 +46,7 @@ const Notice = (props) => {
                  
                 return (
                     <div data-testid="noticeDivEl" id="noticeDiv">
+                        
                         {generateNotice(context, props)}
                     </div>
                 )
