@@ -23,9 +23,19 @@
     to{
         opacity: 0;
     }
-    
-    
+}
 
+@keyframes letterShadow {
+    from {
+        opacity: 0.2;
+        text-shadow: 0;
+        color: black;
+    }
 
+    to {
+        opacity: 1;
+        text-shadow: black .9vw 0vw 1.1vw;
+        color: crimson;
+    }
 }
   
