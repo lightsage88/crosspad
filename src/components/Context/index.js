@@ -16,6 +16,8 @@ import snake from '../../picturesForCrosspad/noGraphImages/snake.png';
 import drmario from '../../picturesForCrosspad/noGameImages/drmario.png';
 import spiderman from '../../picturesForCrosspad/noGameImages/spiderman.gif';
 import sonic from '../../picturesForCrosspad/sonic.gif';
+import metalSonic from '../../picturesForCrosspad/metalSonic.gif';
+
 
 const CrosspadContext = React.createContext();
 
@@ -28,6 +30,7 @@ export class Provider extends Component{
         gameData : {},
         isLoading: false,
         loaderImage: sonic,
+        failImage: metalSonic,
         noGameSet: [
             {
             image: spiderman,
@@ -91,13 +94,16 @@ export class Provider extends Component{
             }
         }
 
-        const handleSearchResponse = (response) => {
-            
-            this.setState(prevState=>({
-                searchOptions: response.data
-              }));
-            loadToggle('stopLoading');   
-            changeTabs('results');
+        const handleSearchResponse = (response, string) => {
+            if(string === 'error') {
+                loadToggle(string)
+            } else {
+                this.setState(prevState=>({
+                    searchOptions: response.data
+                }));
+                loadToggle('stopLoading');   
+                changeTabs('results');
+            }
         }
 
         const changeTabs = (type) => {
@@ -343,7 +349,7 @@ export class Provider extends Component{
               loader.classList.add('loaderActive');
               loaderP.classList.add('loaderPActive');
               container.classList.add('opacityFog');
-           } else {
+           } else if(command === 'stopLoading') {
             image.classList.add('loaderFinished');
             setTimeout(()=>{
                 image.classList.remove('loaderFinished');
@@ -351,9 +357,25 @@ export class Provider extends Component{
                 loaderP.classList.remove('loaderPActive');
                 container.classList.remove('opacityFog');
             }, 2000);
+           } else if (command === 'error') {
+               console.log('our error sonic');
+               loaderP.classList.remove('loaderPActive');
+               loaderP.innerText = "There was an error!";
+               image.src = metalSonic;
 
-            
+               document.addEventListener('click', (e)=>{
+                   e.preventDefault();
+                   loader.classList.remove('loaderActive')
+                   loaderP.classList.remove('loaderPActive');
+                   container.classList.remove('opacityFog');
+               })
+                   
+                
+               
 
+
+           } else {
+               console.log('make a switch,bro')
            }
         
        }
@@ -400,6 +422,7 @@ export class Provider extends Component{
              callBackCombo(response);
            })
            .catch(err => {
+               handleSearchResponse('', 'error')
                console.error(err);
            });
        }
