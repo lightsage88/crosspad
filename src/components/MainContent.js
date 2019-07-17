@@ -15,7 +15,7 @@ const MainContent = (props) => {
        
             
               <div data-testid="mainContentDivEl">
-                <Tabs defaultActiveKey={activeTab}>
+                <Tabs className='mainContentTabs' defaultActiveKey={activeTab}>
                 {
                   props.searchOptions.length === 0 ? 
                   (<Tab id="resultsTab" eventKey="results" title="Results" disabled></Tab>)

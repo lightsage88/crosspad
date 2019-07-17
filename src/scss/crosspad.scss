@@ -2,12 +2,18 @@
 @import './fonts.scss';
 // @import './classes.scss';
 // @import './ids.scss';
+@import './ids/headerH1.scss';
+@import './ids/headerMario.scss';
+@import './ids/headerP.scss';
 @import './ids/headerJumbotron.scss';
 @import './ids/loaderP.scss';
 @import './ids/mainGameDetails.scss';
+@import './ids/navbarDiv.scss';
 @import './ids/noticeDiv.scss';
 @import './ids/noticeShape.scss';
 @import './ids/searchbarButton.scss';
+@import './ids/searchbarMainSection.scss';
+@import './ids/searchbarH3.scss';
 @import './ids/searchInput.scss';
 @import './classes/card.scss';
 @import './classes/card-body.scss';
@@ -16,6 +22,7 @@
 @import './classes/loaderActive.scss';
 @import './classes/loaderFinished.scss';
 @import './classes/loaderPActive.scss';
+@import './classes/mainContentTabs.scss';
 @import '/classes/nesTableFix.scss';
 @import './classes/nintendoFont.scss';
 @import './classes/opacityFog.scss';

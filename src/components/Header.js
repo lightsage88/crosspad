@@ -7,9 +7,9 @@ const Header = () => {
     return (
         <div data-testid="headerDivEl">
         <Jumbotron className='nes-container' >
-          <h1 className='snesFont'>CROSSPAD</h1>
-
-          <p>track game franchises' appreciation over time!</p>
+          <h1 id="headerH1" className='snesFont'>CROSSPAD</h1>
+          <i id="headerMario" className="nes-mario"></i>
+          <p id="headerP" className='nintendoFont'>track game franchises' appreciation over time!</p>
         </Jumbotron>
         <Navbar/>
         </div>

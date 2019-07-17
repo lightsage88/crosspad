@@ -43,9 +43,9 @@ const Searchbar = () => {
 
 
                 return (
-                    <section data-testid="searchBarSectionEl" className='showcase'>
+                    <section id="searchbarMainSection" data-testid="searchBarSectionEl" className='showcase'>
                         <section className="nes-container with-title">
-                        <h3 className='title retroFont'>ENTER A TITLE</h3>
+                        <h3 id="searchbarH3" className='title retroFont'>ENTER A TITLE</h3>
                         <form onSubmit={(e)=>{
                             e.preventDefault();
                             submitSearch();
