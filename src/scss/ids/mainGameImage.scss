@@ -1,0 +1,14 @@
+#mainGameImage {
+    margin:auto;
+}
+
+@media screen and (min-width: 768px) {
+    #mainGameImage {
+        margin: unset;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 2;
+
+    }
+}

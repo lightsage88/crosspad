@@ -1,0 +1,11 @@
+#mainGameTableHeadRow {
+    font-size: 5vw;
+    text-align: center;
+    letter-spacing: .2vw;
+}
+
+@media screen and (min-width: 768px) {
+    #mainGameTableHeadRow {
+        font-size: 4vw;
+    }
+}

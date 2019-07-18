@@ -17,12 +17,12 @@ it('renders one of several images in #loaderImg', ()=>{
 
 it('renders "LOADING"', ()=>{
     const {getByTestId} = render(<Loader />);
-    const loaderPEl = getByTestId('loaderPEl');
-    expect(loaderPEl).toHaveTextContent('LOADING');
+    const loaderPEL = getByTestId('loaderPEL');
+    expect(loaderPEL).toHaveTextContent('LOADING');
 })
 
 
-
+//TODO: add a test for when there is an error!!!!
 
 
 

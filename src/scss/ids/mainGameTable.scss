@@ -1,0 +1,7 @@
+@media screen and (min-width: 768px) {
+    #mainGameTable {
+        grid-row-start:3;
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+}

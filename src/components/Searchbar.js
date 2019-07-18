@@ -34,7 +34,6 @@ const Searchbar = () => {
                 const submitSearch = (e) => {
                     let searchButton = document.getElementById('searchbarButton');
                     let searchInput = document.getElementById('searchInput');
-                    console.log(searchInput.value);
                     context.actions.handleTypingChange ? setTimeout(()=>{context.actions.handleTypingChange(searchInput.value)}, 500) : console.log('yo');
                     searchButton.classList.remove('is-success');
 
@@ -53,7 +52,7 @@ const Searchbar = () => {
                             <input id='searchInput'  data-testid="searchBarInputEl" onChange={inputChanges} className='nes-input retroFont is-dark'  type='text'>
                             </input>
                         </form>
-                        <button type="button" onClick={submitSearch} id="searchbarButton" className="nes-btn is-disabled">SEARCH</button>
+                        <button data-testid="searchBarButtonEL" type="button" onClick={submitSearch} id="searchbarButton" className="nes-btn is-disabled">SEARCH</button>
                         </section>
                     </section>
                 );

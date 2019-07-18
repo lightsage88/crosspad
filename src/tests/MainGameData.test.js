@@ -49,7 +49,7 @@ describe('<MainGameData />', ()=>{
 
         const mainGameDataTitlePEL = getByTestId('mainGameDataTitlePEL');
         expect(mainGameDataTitlePEL).toBeInTheDocument();
-        expect(mainGameDataTitlePEL).toHaveTextContent('ABOUT Metal Gear Solid 2: Substance');
+        expect(mainGameDataTitlePEL).toHaveTextContent('Metal Gear Solid 2: Substance Summary');
 
         const mainGameDataSummaryPEL = getByTestId('mainGameDataSummaryPEL');
         expect(mainGameDataSummaryPEL).toBeInTheDocument();

@@ -11,7 +11,7 @@ const Loader = () => {
                 return (
                     <dialog data-testid="loaderDialogEl" className="nes-dialog is-dark" id="loaderDialog">
                         <form method="dialog">
-                        <p data-testid="loaderPEl" id="loaderP" className="title retroFont">LOADING</p>
+                        <p data-testid="loaderPEL" id="loaderP" className="title retroFont">LOADING</p>
                         <menu id="loaderMenuEl" className="dialog-menu">
                             <img data-testid="loaderImgEl" id="loaderImg" src={context.loaderImage} />
                         </menu>

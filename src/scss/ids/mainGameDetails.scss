@@ -3,3 +3,11 @@
     flex-direction: column;
     padding: 1rem;
 }
+
+@media screen and (min-width: 768px) {
+    #mainGameDetails {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
