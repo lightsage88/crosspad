@@ -1,8 +1,9 @@
 import React from 'react';
 import App from '../App';
+import {Provider} from '../components/Context';
 import Searchbar from '../components/Searchbar';
 import {render, fireEvent, prettyDOM, wait} from './test-utils';
-
+// import axios from 'axios';
 
 
 describe("<Searchbar />", ()=>{
@@ -38,7 +39,7 @@ describe("<Searchbar />", ()=>{
 
     it('when you press the search button, the loader component will appear', ()=>{
        
-        
+
         const {getByTestId} = render(<App />);
         const searchBarInputEl = getByTestId('searchBarInputEl');
         const searchBarButtonEL = getByTestId('searchBarButtonEL');
@@ -60,7 +61,7 @@ describe("<Searchbar />", ()=>{
 
         expect(loaderDialogEl).toBeInTheDocument();
         // expect(loaderDialogEl).toHaveClass('loaderActive');
-        // expect(axiosMock.post).toBeCalledTimes(1);
+        // expect(an).toHaveBeenCalledTimes(1);
         
     })
 

@@ -89,7 +89,6 @@ export class Provider extends Component{
             console.log(this.state.searchValue);
             if(value !== ''){
             loadToggle('isLoading');
-            // searchDatabaseForGame();
             requestFromGames('search', ['name','id'], '', '', this.state.searchValue)
             }
         }
@@ -358,7 +357,6 @@ export class Provider extends Component{
                 container.classList.remove('opacityFog');
             }, 2000);
            } else if (command === 'error') {
-               console.log('our error sonic');
                loaderP.classList.remove('loaderPActive');
                loaderP.innerText = "There was an error!";
                image.src = metalSonic;
@@ -432,6 +430,7 @@ export class Provider extends Component{
                 buttonBeingHovered: this.state.buttonBeingHovered,
                 carouselDirection: null,
                 carouselIndex: 0,
+                failImage: this.state.failImage,
                 gameData : this.state.gameData,
                 isLoading: this.state.isLoading,
                 loaderImage: this.state.loaderImage,
