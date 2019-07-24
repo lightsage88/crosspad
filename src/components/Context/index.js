@@ -18,8 +18,8 @@ import spiderman from '../../picturesForCrosspad/noGameImages/spiderman.gif';
 import sonic from '../../picturesForCrosspad/sonic.gif';
 import metalSonic from '../../picturesForCrosspad/metalSonic.gif';
 
-// const appUrl = 'https://polar-ravine-66926.herokuapp.com';
-const appUrl = 'http://localhost:8888';
+const appUrl = 'https://polar-ravine-66926.herokuapp.com';
+// const appUrl = 'http://localhost:8888';
 
 const CrosspadContext = React.createContext();
 
