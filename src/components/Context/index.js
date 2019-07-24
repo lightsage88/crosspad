@@ -94,13 +94,15 @@ export class Provider extends Component{
         }
 
         const handleSearchResponse = (response, string) => {
+            console.log('handleSearchResponse running with string as : ' + string);
             if(string === 'error') {
                 loadToggle(string)
             } else {
+                loadToggle('stopLoading');   
+
                 this.setState(prevState=>({
                     searchOptions: response.data
                 }));
-                loadToggle('stopLoading');   
                 changeTabs('results');
             }
         }
@@ -366,6 +368,8 @@ export class Provider extends Component{
                    loader.classList.remove('loaderActive')
                    loaderP.classList.remove('loaderPActive');
                    container.classList.remove('opacityFog');
+                   image.src = sonic;
+                   loaderP.innerText = "LOADING"
                })
                    
                 
@@ -378,52 +382,114 @@ export class Provider extends Component{
         
        }
 
+
        const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
-           console.log(fieldOptions);
-           let url = `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`;
-           let data = '';
-           let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
-           let fieldData = fieldOptions.length > 0 ? fieldOptions.join() : '';
-           let callBackCombo = ''
-           switch(type) {
-               case 'search' :
-                 url += `?search=${searchValue}&fields=${fieldData}`;
-                 callBackCombo = handleSearchResponse;
-                break;
-               case 'specificGame':
-                this.setState(prevState => ({
-                    gameData: {},
-                    relatedGames: []
-                }))
-                data = `\nfields ${fieldData}; where id=${gameId};`;
-                callBackCombo = handleSpecificGameResponse;
-               break;
-               case 'franchiseGames':
-                data =  `\nfields ${fieldData}; where id=(${collectionOfIds.toString()});`;
-                callBackCombo= handleFranchiseGamesResponse;
+        console.log(fieldOptions);
+        let url= `https://polar-ravine-66926.herokuapp.com/games`
+        // let url = `http://localhost:8888/games/`;
+        // let data = '';
+        // let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
+        // let fieldData = fieldOptions.length > 0 ? fieldOptions.join() : '';
+        let callBackCombo = ''
+        switch(type) {
+            case 'search' :
+              callBackCombo = handleSearchResponse;
+             break;
+            case 'specificGame':
+             this.setState(prevState => ({
+                 gameData: {},
+                 relatedGames: []
+             }))
+             callBackCombo = handleSpecificGameResponse;
+            break;
+            case 'franchiseGames':
+             callBackCombo= handleFranchiseGamesResponse;
 
-               break;
-                default:
-                 return;
-           }
+            break;
+             default:
+              return;
+        }
 
-           axios({
-               method: "POST",
-               url,
-               headers : {
-                   'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-                   'accept': 'application/json'
-               },
-               data
-           })
-           .then(response => {
-             callBackCombo(response);
-           })
-           .catch(err => {
-               handleSearchResponse('', 'error')
-               console.error(err);
-           });
-       }
+        axios({
+            method: "POST",
+            url,
+            // headers : {
+            //     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
+            //     'accept': 'application/json'
+            // },
+            data: {
+                type, 
+                fieldOptions, 
+                gameId, 
+                collectionOfIds, 
+                searchValue
+            }
+        })
+        .then(response => {
+        //   callBackCombo(response);
+        console.log('hanbaga');
+        console.log(response);
+        // loadToggle('stopLoading');
+        console.log(callBackCombo);
+        callBackCombo(response);
+        })
+        .catch(err => {
+            handleSearchResponse('', 'error')
+            console.error(err);
+        });
+    }
+
+
+
+
+
+
+    //    const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
+    //        console.log(fieldOptions);
+    //        let url = `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`;
+    //        let data = '';
+    //        let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
+    //        let fieldData = fieldOptions.length > 0 ? fieldOptions.join() : '';
+    //        let callBackCombo = ''
+    //        switch(type) {
+    //            case 'search' :
+    //              url += `?search=${searchValue}&fields=${fieldData}`;
+    //              callBackCombo = handleSearchResponse;
+    //             break;
+    //            case 'specificGame':
+    //             this.setState(prevState => ({
+    //                 gameData: {},
+    //                 relatedGames: []
+    //             }))
+    //             data = `\nfields ${fieldData}; where id=${gameId};`;
+    //             callBackCombo = handleSpecificGameResponse;
+    //            break;
+    //            case 'franchiseGames':
+    //             data =  `\nfields ${fieldData}; where id=(${collectionOfIds.toString()});`;
+    //             callBackCombo= handleFranchiseGamesResponse;
+
+    //            break;
+    //             default:
+    //              return;
+    //        }
+
+    //        axios({
+    //            method: "POST",
+    //            url,
+    //            headers : {
+    //                'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
+    //                'accept': 'application/json'
+    //            },
+    //            data
+    //        })
+    //        .then(response => {
+    //          callBackCombo(response);
+    //        })
+    //        .catch(err => {
+    //            handleSearchResponse('', 'error')
+    //            console.error(err);
+    //        });
+    //    }
 
         return (
             <CrosspadContext.Provider value={{
