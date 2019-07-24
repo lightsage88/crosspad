@@ -18,6 +18,8 @@ import spiderman from '../../picturesForCrosspad/noGameImages/spiderman.gif';
 import sonic from '../../picturesForCrosspad/sonic.gif';
 import metalSonic from '../../picturesForCrosspad/metalSonic.gif';
 
+// const appUrl = 'https://polar-ravine-66926.herokuapp.com';
+const appUrl = 'http://localhost:8888';
 
 const CrosspadContext = React.createContext();
 
@@ -169,15 +171,13 @@ export class Provider extends Component{
 
 
         const determineCover =  (gameID, context, index) => {
-            console.log('determineCover running with' + gameID + context);
             axios({
                 method: "POST",
-                url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/covers/`,
+                url: `${appUrl}/covers`,
                 headers: {
-                    'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
                     'accept': 'application/json'
                 },
-                data: `\nfields image_id, url; where game=${gameID};`
+                data: {gameID}
             })
             .then(response=>{
 
@@ -231,12 +231,11 @@ export class Provider extends Component{
        const gatherCollection = (collectionID) => {
            axios({
                method: "POST",
-               url: `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/collections`,
+               url: `${appUrl}/collections`,
                headers: {
                    "accept": "application/json",
-                   "user-key": `${process.env.REACT_APP_IGDB_KEY}`
                },
-               data: `\nfields name, games; where id = ${collectionID};`
+               data: {collectionID}
            })
            .then(response => {
                //TODO: find a way to get a chronological return of gameIDs from the API
@@ -385,7 +384,7 @@ export class Provider extends Component{
 
        const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
         console.log(fieldOptions);
-        let url= `https://polar-ravine-66926.herokuapp.com/games`
+        let url= `${appUrl}/games`
         // let url = `http://localhost:8888/games/`;
         // let data = '';
         // let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
