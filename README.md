@@ -1,68 +1,110 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- # book-thing.io
 
-## Available Scripts
+Initial wireframes:
 
-In the project directory, you can run:
+https://wireframe.cc/x0a8I9
 
-### `npm start`
+https://wireframe.cc/6oVXTU -->
+# Crosspad
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+A web-application that allows anyone to search for a video-game, and then receive a list of options as buttons. Upon one being clicked, the screen
+will focus to a tab about that game and other tabs pertaining to related titles and the reception of the game's franchise, based on aggregated critical ratings, will become available to view.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Motivation
 
-### `npm test`
+Video-games are a passion of mine. Having been born in '88, I grew up with a steady diet of Nintendo systems and games. I have had the pleasure of watching their evolution from glorified arcade ports to multi-million dollar projects that can rival cinema in their narrative and dramatic content. I thought it would be neat to create a tool that would help people grasp the reception of games, especially those which are entries in long running franchises, within the context of decades of development and growth in the technology and the aims of the industry.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Screenshots
+Landing:
+Fullscreen:![landing fullscreenScreen](public/screenshots/landingFullscreen.png)
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Mobile:![landing mobile](public/screenshots/landingMobile.png)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Loading:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Fullscreen:![loading fullscreen](public/screenshots/loadingFullscreen.png)
 
-### `npm run eject`
+Mobile:![loading mobile](public/screenshots/loadingMobile.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Game Tab
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Fullscreen:![gametab fullscreen](public/screenshots/gametabFullscreen.png)
+Mobile:![gametab mobile](public/screenshots/gametabMobile.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Results Tab
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Fullscreen:![results fullscreen](public/screenshots/resultsFullscreen.png)
+Mobile:![results mobile](public/screenshots/resultsMobile.png)
 
-## Learn More
+Related Games Tab
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Fullscreen:![related games tab fullscreen](public/screenshots/relatedGamesFullscreen.png)
+Mobile:![related games tab mobile](public/screenshots/relatedGamesMobile.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ratings Tab
 
-### Code Splitting
+Fullscreen: ![ratings tab fullscreen](public/screenshots/ratingsFullscreen.png)
+Mobile:![ratings tab mobile](public/screenshots/ratingsMobile.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+<!-- ## Environment Setup
 
-### Making a Progressive Web App
+1. You'll need to clone <INSERT LINK> and run 
+```
+npm install
+```
+then
+```
+npm start
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+2. Do the same for this package.
 
-### Advanced Configuration
+3. Open up a window at localhost:3000 -->
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Running the tests
 
-### `npm run build` fails to minify
+To run all tests, run
+```
+npm test
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Built With
+
+### Front-End
+* React
+* React Context
+* Sass/SCSS
+* NES.css
+
+### Back-End
+* Express
+* Node
+
+### Testing
+* Jest
+* React Testing Library
+
+## Features
+
+* Search for any video-game
+* Receive a picture of the box art, and a summary of the title's premise.
+* Receive information on the title's critical rating and year of release, along with games also in the same series.
+
+## Running Project Link
+
+- [Live](https://infinite-harbor-38259.herokuapp.com/)
+
+## Authors
+
+* **Adrian Rosales** - ** - Fullstack Web Development
+
+
+## Acknowledgments
+
+* **B.C. Rikko** - ** - For the use of nes.css
+- [B.C. Rikko's Github](https://github.com/BcRikko)
