@@ -17,9 +17,7 @@ import drmario from '../../picturesForCrosspad/noGameImages/drmario.png';
 import spiderman from '../../picturesForCrosspad/noGameImages/spiderman.gif';
 import sonic from '../../picturesForCrosspad/sonic.gif';
 import metalSonic from '../../picturesForCrosspad/metalSonic.gif';
-
-const appUrl = 'https://polar-ocean-65786.herokuapp.com';
-// const appUrl = 'http://localhost:8888';
+let apiUrl = process.env.REACT_APP_MODE === 'DEV' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PRODUCTION_API_URL;
 
 const CrosspadContext = React.createContext();
 
@@ -70,8 +68,7 @@ export class Provider extends Component{
     searchInputBarRef = React.createRef();
 
     render() {
-
-        
+        console.log('hello from index!', process.env);
 
         const handleTypingChange = (searchValue) => {
             clearTimeout(this.typingTimer);
@@ -173,7 +170,7 @@ export class Provider extends Component{
         const determineCover =  (gameID, context, index) => {
             axios({
                 method: "POST",
-                url: `${appUrl}/covers`,
+                url: `${apiUrl}/covers`,
                 headers: {
                     'accept': 'application/json'
                 },
@@ -231,7 +228,7 @@ export class Provider extends Component{
        const gatherCollection = (collectionID) => {
            axios({
                method: "POST",
-               url: `${appUrl}/collections`,
+               url: `${apiUrl}/collections`,
                headers: {
                    "accept": "application/json",
                },
@@ -384,11 +381,7 @@ export class Provider extends Component{
 
        const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
         console.log(fieldOptions);
-        let url= `${appUrl}/games`
-        // let url = `http://localhost:8888/games/`;
-        // let data = '';
-        // let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
-        // let fieldData = fieldOptions.length > 0 ? fieldOptions.join() : '';
+        let url= `${apiUrl}/games`
         let callBackCombo = ''
         switch(type) {
             case 'search' :
@@ -412,10 +405,6 @@ export class Provider extends Component{
         axios({
             method: "POST",
             url,
-            // headers : {
-            //     'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-            //     'accept': 'application/json'
-            // },
             data: {
                 type, 
                 fieldOptions, 
@@ -425,11 +414,8 @@ export class Provider extends Component{
             }
         })
         .then(response => {
-        //   callBackCombo(response);
-        console.log('hanbaga');
-        console.log(response);
-        // loadToggle('stopLoading');
-        console.log(callBackCombo);
+        console.log('response 1', response);
+        console.log('cbc', callBackCombo);
         callBackCombo(response);
         })
         .catch(err => {
@@ -437,59 +423,6 @@ export class Provider extends Component{
             console.error(err);
         });
     }
-
-
-
-
-
-
-    //    const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
-    //        console.log(fieldOptions);
-    //        let url = `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_IGDB_API_URL}/games/`;
-    //        let data = '';
-    //        let headers = {'user-key': `${process.env.REACT_APP_IGDB_KEY}`, 'accept': 'applciation/json'};
-    //        let fieldData = fieldOptions.length > 0 ? fieldOptions.join() : '';
-    //        let callBackCombo = ''
-    //        switch(type) {
-    //            case 'search' :
-    //              url += `?search=${searchValue}&fields=${fieldData}`;
-    //              callBackCombo = handleSearchResponse;
-    //             break;
-    //            case 'specificGame':
-    //             this.setState(prevState => ({
-    //                 gameData: {},
-    //                 relatedGames: []
-    //             }))
-    //             data = `\nfields ${fieldData}; where id=${gameId};`;
-    //             callBackCombo = handleSpecificGameResponse;
-    //            break;
-    //            case 'franchiseGames':
-    //             data =  `\nfields ${fieldData}; where id=(${collectionOfIds.toString()});`;
-    //             callBackCombo= handleFranchiseGamesResponse;
-
-    //            break;
-    //             default:
-    //              return;
-    //        }
-
-    //        axios({
-    //            method: "POST",
-    //            url,
-    //            headers : {
-    //                'user-key': `${process.env.REACT_APP_IGDB_KEY}`,
-    //                'accept': 'application/json'
-    //            },
-    //            data
-    //        })
-    //        .then(response => {
-    //          callBackCombo(response);
-    //        })
-    //        .catch(err => {
-    //            handleSearchResponse('', 'error')
-    //            console.error(err);
-    //        });
-    //    }
-
         return (
             <CrosspadContext.Provider value={{
                 buttonBeingHovered: this.state.buttonBeingHovered,
