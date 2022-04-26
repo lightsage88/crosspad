@@ -7,7 +7,7 @@ import {Consumer} from './components/Context';
 import './App.css';
 
 const App = () => {
-
+  console.log('2.0 version');
   return (
     <Consumer>
     {
