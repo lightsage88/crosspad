@@ -10,6 +10,7 @@ const Results = (props) => {
 
                 const generateOptions = (context, props) => {
                     const options = props.searchOptions.map((option, index) => {
+                        console.log('lets lookat the option', option);
                     return <li data-testid={"resultsLI-" + index} className='liButtonWrapper' 
                                 key={index} 
                                 onClick={(()=>(context.actions.requestFromGames('specificGame', ['aggregated_rating', 'release_dates.y', 'collection', 'name', 'summary', 'cover'], option.id, '', '')))} >
