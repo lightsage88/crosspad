@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import moment from 'moment';
 import search1 from '../../picturesForCrosspad/needSearchImages/search-1.png';
 import search2 from '../../picturesForCrosspad/needSearchImages/search-2.png';
 import search3 from '../../picturesForCrosspad/needSearchImages/search-3.png';
@@ -332,6 +331,9 @@ export class Provider extends Component{
                 case 'coin' :
                    sound.src = 'https://themushroomkingdom.net/sounds/wav/smw/smw_coin.wav'
                 break;
+                default:
+                    null;
+                    break;
            }
            sound.play();
        }

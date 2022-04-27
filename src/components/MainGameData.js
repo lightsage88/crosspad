@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Notice from './Notice';
 
 
@@ -10,7 +10,7 @@ const MainGameData = (props) => {
                         <h1 id="mainGameTitleH1" data-testid="mainGameDataH1El" className='nintendoFont'>
                             {props.gameData.name}
                         </h1>
-                        <img id="mainGameImage" data-testid="mainGameImgEl" src={props.gameData.coverUrl} />
+                        <img alt="" id="mainGameImage" data-testid="mainGameImgEl" src={props.gameData.coverUrl} />
                         <table id="mainGameTable" className='nes-table is-bordered is-dark snesFont'>
                             <thead>
                                 <tr id="mainGameTableHeadRow">

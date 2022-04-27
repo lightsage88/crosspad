@@ -1,8 +1,7 @@
 import React from 'react';
-import { Card, CardImg, CardTitle, CardDeck, CardText, CardGroup,
-    CardSubtitle, CardBody } from 'reactstrap';
+import { Card, CardImg, CardTitle, CardDeck, CardText,
+    CardBody } from 'reactstrap';
 import Notice from './Notice';  
-import {Consumer} from './Context';
 
 const RelatedGames = (props) => {
 

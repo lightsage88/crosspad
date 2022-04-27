@@ -1,5 +1,5 @@
 import React from 'react';
-import {Provider, Consumer} from './Context';
+import {Consumer} from './Context';
 
 
 const Results = (props) => {

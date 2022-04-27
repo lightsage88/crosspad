@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'; 
 import {Consumer} from './Context';
 
 const Loader = () => {
@@ -13,7 +12,7 @@ const Loader = () => {
                         <form method="dialog">
                         <p data-testid="loaderPEL" id="loaderP" className="title retroFont">LOADING</p>
                         <menu id="loaderMenuEl" className="dialog-menu">
-                            <img data-testid="loaderImgEl" id="loaderImg" src={context.loaderImage} />
+                            <img alt="" data-testid="loaderImgEl" id="loaderImg" src={context.loaderImage} />
                         </menu>
                         </form>
                     </dialog>
