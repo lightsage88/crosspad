@@ -1,5 +1,5 @@
 'use strict';
-require('node-sass');
+// require('node-sass');
 const fs = require('fs');
 const isWsl = require('is-wsl');
 const path = require('path');
@@ -454,11 +454,11 @@ module.exports = function(webpackEnv) {
                 
               ),
             },
-            {
-              test: /\.(scss|sass)$/,
-              loader: require.resolve('node-sass')
+            // {
+            //   test: /\.(scss|sass)$/,
+            //   loader: require.resolve('node-sass')
 
-            },
+            // },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
