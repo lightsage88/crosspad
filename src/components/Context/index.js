@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import search1 from '../../picturesForCrosspad/needSearchImages/search-1.png';
 import search2 from '../../picturesForCrosspad/needSearchImages/search-2.png';
@@ -20,45 +20,45 @@ let apiUrl = process.env.REACT_APP_MODE === 'DEV' ? process.env.REACT_APP_DEV_AP
 
 const CrosspadContext = React.createContext();
 
-export class Provider extends Component{
+export class Provider extends Component {
 
     state = {
         buttonBeingHovered: false,
         carouselDirection: null,
         carouselIndex: 0,
-        gameData : {},
+        gameData: {},
         isLoading: false,
         loaderImage: sonic,
         failImage: metalSonic,
         noGameSet: [
             {
-            image: spiderman,
-            text: "I may wear a mask, but I can clearly see there's no game here!"
+                image: spiderman,
+                text: "I may wear a mask, but I can clearly see there's no game here!"
             },
             {
-            image: drmario,
-            text: "May I prescribe some text in the search bar?"
+                image: drmario,
+                text: "May I prescribe some text in the search bar?"
             }
         ],
         noGraphSet: [
             {
-            image: drWright,
-            text: "Egads, there doesn't seem to be any data!"
+                image: drWright,
+                text: "Egads, there doesn't seem to be any data!"
             },
             {
-            image: snake,
-            text: "This is Snake...is data to be retrieved by OSP too?"
+                image: snake,
+                text: "This is Snake...is data to be retrieved by OSP too?"
             }
         ],
-        relatedGames : [],
-        searchNoticeImages: [search1, search2,search3, search4, search5, search6, search7, search8, search9, search10],
+        relatedGames: [],
+        searchNoticeImages: [search1, search2, search3, search4, search5, search6, search7, search8, search9, search10],
         searchOptions: [],
-        searchValue: ''    
+        searchValue: ''
     };
 
-    componentDidMount(nextProps){
+    componentDidMount(nextProps) {
         this.setState(prevState => ({
-            state : {...prevState, nextProps}
+            state: { ...prevState, nextProps }
         }))
     }
 
@@ -72,33 +72,33 @@ export class Provider extends Component{
         const handleTypingChange = (searchValue) => {
             clearTimeout(this.typingTimer);
             let value = searchValue;
-            this.typingTimer = setTimeout(()=>{updateSearchValue(value)}, 900);
-         
-        
+            this.typingTimer = setTimeout(() => { updateSearchValue(value) }, 900);
+
+
         }
 
         const updateSearchValue = (value) => {
             console.log('updateSearchValue running with: ' + value);
             this.setState(prevState => ({
-              searchValue : value,
-              searchOptions: [],
+                searchValue: value,
+                searchOptions: [],
 
             }));
             console.log(this.state.searchValue);
-            if(value !== ''){
-            loadToggle('isLoading');
-            requestFromGames('search', ['name','id'], '', '', this.state.searchValue)
+            if (value !== '') {
+                loadToggle('isLoading');
+                requestFromGames('search', ['name', 'id'], '', '', this.state.searchValue)
             }
         }
 
         const handleSearchResponse = (response, string) => {
             console.log('handleSearchResponse running with string as : ' + string);
-            if(string === 'error') {
+            if (string === 'error') {
                 loadToggle(string)
             } else {
-                loadToggle('stopLoading');   
+                loadToggle('stopLoading');
 
-                this.setState(prevState=>({
+                this.setState(prevState => ({
                     searchOptions: response.data
                 }));
                 changeTabs('results');
@@ -110,19 +110,19 @@ export class Provider extends Component{
             let tab = '';
             activeTab.classList.remove('active');
 
-            switch(type) {
+            switch (type) {
                 case "results":
                     tab = document.querySelector('a[data-rb-event-key="results"]')
                     tab.click();
-                break
+                    break
                 case "game":
                     tab = document.querySelector('a[data-rb-event-key="game"]');
                     tab.click();
-                break
+                    break
                 default:
-                    
-            
-                
+
+
+
             }
 
         }
@@ -130,77 +130,77 @@ export class Provider extends Component{
 
 
         const handleSpecificGameResponse = (response, gameID) => {
-            this.setState(prevState=>({
-                    
+            this.setState(prevState => ({
+
                 gameData: {
                     ...prevState.gameData,
                     aggregatedRating: Math.round(response.data[0].aggregated_rating) || "Unknown",
                     collection: response.data[0].collection || "Unknown",
                     gameID,
                     name: response.data[0].name || "Unknown",
-                    releaseDate:  response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined ? response.data[0].release_dates[0].y : 'Unknown',
+                    releaseDate: response.data[0].release_dates !== undefined && response.data[0].release_dates[0].y !== undefined ? response.data[0].release_dates[0].y : 'Unknown',
                     summary: response.data[0].summary || "Unknown"
 
                 }
             }))
 
-           if(response.data[0].cover){
-            determineCover(response.data[0].id, 'mainGame');
-           } else {
-               this.setState(prevState => ({
-                   gameData: {
-                       ...prevState.gameData,
-                       coverUrl: 'path to placeholder image'
-                   }
-               }))
-           }
+            if (response.data[0].cover) {
+                determineCover(response.data[0].id, 'mainGame');
+            } else {
+                this.setState(prevState => ({
+                    gameData: {
+                        ...prevState.gameData,
+                        coverUrl: 'path to placeholder image'
+                    }
+                }))
+            }
 
-           if(response.data[0].collection){
-            gatherCollection(response.data[0].collection);
-           } else {
-               //we need to tell user that there aren't any colelctions
-               console.log('Sorry but your princess is in another castle');
-           }
+            if (response.data[0].collection) {
+                gatherCollection(response.data[0].collection);
+            } else {
+                //we need to tell user that there aren't any colelctions
+                console.log('Sorry but your princess is in another castle');
+            }
             console.log(gameID);
             changeTabs('game');
         }
 
 
-        const determineCover =  (gameID, context, index) => {
+        const determineCover = (gameID, context, index) => {
             axios({
                 method: "POST",
                 url: `${apiUrl}/covers`,
                 headers: {
                     'accept': 'application/json'
                 },
-                data: {gameID}
+                data: { gameID }
             })
-            .then(response=>{
+                .then(response => {
 
-                //if the context is main game, we send them to another function that does 
-                //state stuff for gameData
-                if(context === "mainGame") {
-                    handleMainGameCover(response);
-                } else {
-                    handleRelatedGameCover(gameID, index, response)
-                }
+                    //if the context is main game, we send them to another function that does 
+                    //state stuff for gameData
+                    if (context === "mainGame") {
+                        handleMainGameCover(response);
+                    } else {
+                        handleRelatedGameCover(gameID, index, response)
+                    }
 
-                //if the context is not, then we send them to another function that deals with a related game
-                //based on ID
-            })
-            .catch(err =>{
-                console.error(err)
-            }) 
+                    //if the context is not, then we send them to another function that deals with a related game
+                    //based on ID
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         }
 
 
         const handleMainGameCover = (response) => {
-            
-            
+
+
             this.setState(prevState => ({
-                gameData : {
+                gameData: {
                     ...prevState.gameData,
-                    coverUrl: (response.data[0].url).replace('thumb','cover_big')
+                    coverUrl: (response.data[0].url).replace('thumb', 'cover_big')
                 }
             }))
         }
@@ -210,228 +210,232 @@ export class Provider extends Component{
             // console.log(response);
             console.log(index);
             let relatedGames = [...this.state.relatedGames];
-            let relatedGameObject = {...relatedGames[index]};
-            relatedGameObject.coverUrl = (response.data[0].url).replace('thumb','cover_big') || 'Unknown need placeholder';
+            let relatedGameObject = { ...relatedGames[index] };
+            relatedGameObject.coverUrl = (response.data[0].url).replace('thumb', 'cover_big') || 'Unknown need placeholder';
             relatedGames[index] = relatedGameObject;
-            this.setState(prevState=>({
-                relatedGames: [
-                ...relatedGames
-                ]
-              
-
-                
-            }))
-            
-        }
-
-       const gatherCollection = (collectionID) => {
-           axios({
-               method: "POST",
-               url: `${apiUrl}/collections`,
-               headers: {
-                   "accept": "application/json",
-               },
-               data: {collectionID}
-           })
-           .then(response => {
-               //TODO: find a way to get a chronological return of gameIDs from the API
-               let franchiseGameIDs = []
-               franchiseGameIDs = (response.data[0].games).slice(0, 10);
-               //need to cut down to a maximum of ten
-            //    getDataForFranchiseGames(franchiseGameIDs);
-                requestFromGames('franchiseGames', ['name', 'cover', 'release_dates.y', 'summary', 'aggregated_rating'], '', franchiseGameIDs , '');
-               this.setState(prevState => ({
-                gameData: {
-                    ...prevState.gameData,
-                    franchiseName: response.data[0].name
-                }
-               }));
-           })
-           .catch(err => {
-               console.error(err);
-           });
-       }
-
-       const handleFranchiseGamesResponse = (response) => {
-        let franchiseArray = response.data;
-        franchiseArray = franchiseArray.filter(game => {
-                return game.id !== this.state.gameData.gameID;
-        });
-        
-  
-        //for each member in the franchise array we are going to add
-        //an object for a  game in the state's relatedGames array.
-        franchiseArray.forEach(game => {
-            console.log(game);
             this.setState(prevState => ({
                 relatedGames: [
-                    ...prevState.relatedGames, 
-                    {
-                        aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
-                        gameID: game.id ? game.id : "Unknown",
-                        coverID: game.cover ? game.cover : 'Unknown',
-                        name: game.name ? game.name : 'Unknown',
-                        releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
-                    }
+                    ...relatedGames
                 ]
+
+
+
             }))
-        })
-       
-  
-        console.log(this.state);
-        //for each statemember for related games, we are going to do determinecover and pass in the 
-        //game's id value and cover value
-        let arrayOfRelatedGames = this.state.relatedGames;
-        arrayOfRelatedGames.sort(sortFranchiseGamesArray);
-        arrayOfRelatedGames.forEach((game, index) => {
-            determineCover(game.gameID, null, index);
-        })
-       }
+
+        }
+
+        const gatherCollection = (collectionID) => {
+            axios({
+                method: "POST",
+                url: `${apiUrl}/collections`,
+                headers: {
+                    "accept": "application/json",
+                },
+                data: { collectionID }
+            })
+                .then(response => {
+                    //TODO: find a way to get a chronological return of gameIDs from the API
+                    let franchiseGameIDs = []
+                    franchiseGameIDs = (response.data[0].games).slice(0, 10);
+                    //need to cut down to a maximum of ten
+                    //    getDataForFranchiseGames(franchiseGameIDs);
+                    requestFromGames('franchiseGames', ['name', 'cover', 'release_dates.y', 'summary', 'aggregated_rating'], '', franchiseGameIDs, '');
+                    this.setState(prevState => ({
+                        gameData: {
+                            ...prevState.gameData,
+                            franchiseName: response.data[0].name
+                        }
+                    }));
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+
+        const handleFranchiseGamesResponse = (response) => {
+            let franchiseArray = response.data;
+            franchiseArray = franchiseArray.filter(game => {
+                return game.id !== this.state.gameData.gameID;
+            });
 
 
-       const sortFranchiseGamesArray = (a,b) =>{
-        
+            //for each member in the franchise array we are going to add
+            //an object for a  game in the state's relatedGames array.
+            franchiseArray.forEach(game => {
+                console.log(game);
+                this.setState(prevState => ({
+                    relatedGames: [
+                        ...prevState.relatedGames,
+                        {
+                            aggregatedRating: game.aggregated_rating ? Math.round(game.aggregated_rating) : "Unknown",
+                            gameID: game.id ? game.id : "Unknown",
+                            coverID: game.cover ? game.cover : 'Unknown',
+                            name: game.name ? game.name : 'Unknown',
+                            releaseDate: game.release_dates && game.release_dates[0].y ? game.release_dates[0].y : 'Unknown'
+                        }
+                    ]
+                }))
+            })
+
+
+            console.log(this.state);
+            //for each statemember for related games, we are going to do determinecover and pass in the 
+            //game's id value and cover value
+            let arrayOfRelatedGames = this.state.relatedGames;
+            arrayOfRelatedGames.sort(sortFranchiseGamesArray);
+            arrayOfRelatedGames.forEach((game, index) => {
+                determineCover(game.gameID, null, index);
+            })
+        }
+
+
+        const sortFranchiseGamesArray = (a, b) => {
+
             // Use toUpperCase() to ignore character casing
             const yearA = a.releaseDate;
             const yearB = b.releaseDate;
-          
+
             let comparison = 0;
             if (yearA > yearB) {
-              comparison = 1;
+                comparison = 1;
             } else if (yearA < yearB) {
-              comparison = -1;
+                comparison = -1;
             }
             return comparison;
-          
-          
-       }
 
-       const hoverIntoButton = (id, toggle) => {
+
+        }
+
+        const hoverIntoButton = (id, toggle) => {
             var buttonToChange = document.getElementById(id);
-            if(toggle === 'red') {
-            buttonToChange.classList.remove('is-primary');
-            buttonToChange.classList.add('is-error');
+            if (toggle === 'red') {
+                buttonToChange.classList.remove('is-primary');
+                buttonToChange.classList.add('is-error');
             } else {
                 buttonToChange.classList.remove('is-error');
                 buttonToChange.classList.add('is-primary');
-        
+
             }
-       }
-
-       const handleCarouselSelect = (selectedIndex, e) => {
-           this.setState(prevState => ({
-               index: selectedIndex,
-               direction: e.direction
-           }));
-       }
-
-       const playSound = (order) => {
-           var sound = document.createElement("audio");
-           switch(order) {
-                case 'coin' :
-                   sound.src = 'https://themushroomkingdom.net/sounds/wav/smw/smw_coin.wav'
-                break;
-                default:
-                    null;
-                    break;
-           }
-           sound.play();
-       }
-
-       const loadToggle = (command) => {
-           console.log(command);
-           let container = document.getElementById('appContainer');
-           let loader = document.getElementById('loaderDialog');
-           let loaderP = document.getElementById('loaderP');
-           let image = document.getElementById('loaderImg');
-           if(command === "isLoading") {
-              loader.classList.add('loaderActive');
-              loaderP.classList.add('loaderPActive');
-              container.classList.add('opacityFog');
-           } else if(command === 'stopLoading') {
-            image.classList.add('loaderFinished');
-            setTimeout(()=>{
-                image.classList.remove('loaderFinished');
-                loader.classList.remove('loaderActive');
-                loaderP.classList.remove('loaderPActive');
-                container.classList.remove('opacityFog');
-            }, 2000);
-           } else if (command === 'error') {
-               loaderP.classList.remove('loaderPActive');
-               loaderP.innerText = "There was an error!";
-               image.src = metalSonic;
-
-               document.addEventListener('click', (e)=>{
-                   e.preventDefault();
-                   loader.classList.remove('loaderActive')
-                   loaderP.classList.remove('loaderPActive');
-                   container.classList.remove('opacityFog');
-                   image.src = sonic;
-                   loaderP.innerText = "LOADING"
-               })
-                   
-                
-               
-
-
-           } else {
-               console.log('make a switch,bro')
-           }
-        
-       }
-
-
-       const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
-        console.log(fieldOptions);
-        let url= `${apiUrl}/games`
-        let callBackCombo = ''
-        switch(type) {
-            case 'search' :
-              callBackCombo = handleSearchResponse;
-             break;
-            case 'specificGame':
-             this.setState(prevState => ({
-                 gameData: {},
-                 relatedGames: []
-             }))
-             callBackCombo = handleSpecificGameResponse;
-            break;
-            case 'franchiseGames':
-             callBackCombo= handleFranchiseGamesResponse;
-
-            break;
-             default:
-              return;
         }
 
-        axios({
-            method: "POST",
-            url,
-            data: {
-                type, 
-                fieldOptions, 
-                gameId, 
-                collectionOfIds, 
-                searchValue
+        const handleCarouselSelect = (selectedIndex, e) => {
+            this.setState(prevState => ({
+                index: selectedIndex,
+                direction: e.direction
+            }));
+        }
+
+        const playSound = (order) => {
+            var sound = document.createElement("audio");
+            if (order === 'coin') {
+                sound.src = 'https://themushroomkingdom.net/sounds/wav/smw/smw_coin.wav';
             }
-        })
-        .then(response => {
-        console.log('response 1', response);
-        console.log('cbc', callBackCombo);
-        callBackCombo(response);
-        })
-        .catch(err => {
-            handleSearchResponse('', 'error')
-            console.error(err);
-        });
-    }
+            // switch (order) {
+            //     case 'coin':
+            //         sound.src = 'https://themushroomkingdom.net/sounds/wav/smw/smw_coin.wav';
+            //         break;
+            //     case 'wolbocho':
+            //         console.log('yo');
+            //     default:
+            //         break;
+            // }
+            sound.play();
+        }
+
+        const loadToggle = (command) => {
+            console.log(command);
+            let container = document.getElementById('appContainer');
+            let loader = document.getElementById('loaderDialog');
+            let loaderP = document.getElementById('loaderP');
+            let image = document.getElementById('loaderImg');
+            if (command === "isLoading") {
+                loader.classList.add('loaderActive');
+                loaderP.classList.add('loaderPActive');
+                container.classList.add('opacityFog');
+            } else if (command === 'stopLoading') {
+                image.classList.add('loaderFinished');
+                setTimeout(() => {
+                    image.classList.remove('loaderFinished');
+                    loader.classList.remove('loaderActive');
+                    loaderP.classList.remove('loaderPActive');
+                    container.classList.remove('opacityFog');
+                }, 2000);
+            } else if (command === 'error') {
+                loaderP.classList.remove('loaderPActive');
+                loaderP.innerText = "There was an error!";
+                image.src = metalSonic;
+
+                document.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loader.classList.remove('loaderActive')
+                    loaderP.classList.remove('loaderPActive');
+                    container.classList.remove('opacityFog');
+                    image.src = sonic;
+                    loaderP.innerText = "LOADING"
+                })
+
+
+
+
+
+            } else {
+                console.log('make a switch,bro')
+            }
+
+        }
+
+
+        const requestFromGames = (type, fieldOptions, gameId, collectionOfIds, searchValue) => {
+            console.log(fieldOptions);
+            let url = `${apiUrl}/games`
+            let callBackCombo = ''
+            switch (type) {
+                case 'search':
+                    callBackCombo = handleSearchResponse;
+                    break;
+                case 'specificGame':
+                    this.setState(prevState => ({
+                        gameData: {},
+                        relatedGames: []
+                    }))
+                    callBackCombo = handleSpecificGameResponse;
+                    break;
+                case 'franchiseGames':
+                    callBackCombo = handleFranchiseGamesResponse;
+
+                    break;
+                default:
+                    return;
+            }
+
+            axios({
+                method: "POST",
+                url,
+                data: {
+                    type,
+                    fieldOptions,
+                    gameId,
+                    collectionOfIds,
+                    searchValue
+                }
+            })
+                .then(response => {
+                    console.log('response 1', response);
+                    console.log('cbc', callBackCombo);
+                    callBackCombo(response);
+                })
+                .catch(err => {
+                    handleSearchResponse('', 'error')
+                    console.error(err);
+                });
+        }
         return (
             <CrosspadContext.Provider value={{
                 buttonBeingHovered: this.state.buttonBeingHovered,
                 carouselDirection: null,
                 carouselIndex: 0,
                 failImage: this.state.failImage,
-                gameData : this.state.gameData,
+                gameData: this.state.gameData,
                 isLoading: this.state.isLoading,
                 loaderImage: this.state.loaderImage,
                 noGameSet: this.state.noGameSet,
@@ -440,7 +444,7 @@ export class Provider extends Component{
                 searchNoticeImages: this.state.searchNoticeImages,
                 searchOptions: this.state.searchOptions,
                 searchValue: this.state.searchValue,
-                typingTimer : null,
+                typingTimer: null,
                 searchBarInputBarRef: this.searchInputBarRef,
                 actions: {
                     handleCarouselSelect: handleCarouselSelect,

@@ -40,7 +40,7 @@ const Notice = (props) => {
                                     </section>
                                     break;
                                 default:
-                                    null;
+                                    // null;
                                     break;
                             }
                             return notice

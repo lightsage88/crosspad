@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import MainGameData from './MainGameData';
 import RelatedGames from './RelatedGames';
 import Results from './Results';

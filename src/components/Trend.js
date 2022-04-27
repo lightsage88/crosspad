@@ -61,6 +61,7 @@ const Trend = (props) => {
                     <h5 data-testid={'trend/gameName-'+index}>{game.name}</h5> 
                     <span data-testid={'trend/releaseDate-'+index}>{game.releaseDate}</span>
                     <progress data-testid={'trend/progress-'+index} className={barColorClass} value={game.aggregatedRating} max="100"></progress>
+                    {/* eslint-disable-next-line */}
                     <a href="" data-testid={'trend/badge-'+index} className="nes-badge">
                       <span data-testid={'trend/badgeSpan-'+index} className="is-dark">RATING: {game.aggregatedRating}</span>
                     </a>
