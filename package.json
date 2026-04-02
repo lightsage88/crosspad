@@ -18,7 +18,7 @@
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "cors": "^2.8.5",
     "css-loader": "2.1.1",
-    "dotenv": "6.2.0",
+    "dotenv": "^6.2.0",
     "dotenv-expand": "4.2.0",
     "enzyme-context": "^1.1.0",
     "eslint": "^5.16.0",
@@ -72,11 +72,11 @@
   "scripts": {
     "start": "serve -s build",
     "prestart": "npm install -g serve",
-    "local": "node scripts/start.js",
+    "local": "cross-env NODE_OPTIONS=\"--openssl-legacy-provider\" node scripts/start.js",
     "dev": "run-p server local",
     "server": "node-env-run server --exec nodemon | pino-colada",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "build": "cross-env NODE_OPTIONS=\"--openssl-legacy-provider\" node scripts/build.js",
+    "test": "cross-env NODE_OPTIONS=\"--openssl-legacy-provider\" node scripts/test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -152,6 +152,7 @@
     "@testing-library/react": "^8.0.5",
     "@testing-library/user-event": "^4.1.0",
     "body-parser": "^1.19.0",
+    "cross-env": "^10.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "express": "^4.17.1",

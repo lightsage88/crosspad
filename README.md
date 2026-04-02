@@ -51,18 +51,12 @@ Mobile:![ratings tab mobile](public/screenshots/ratingsMobile.png)
 
 <!-- ## Environment Setup
 
-1. You'll need to clone <INSERT LINK> and run 
-```
-npm install
-```
-then
-```
-npm start
-```
-
-2. Do the same for this package.
-
-3. Open up a window at localhost:3000 -->
+Start the app: npm run dev (with NODE_OPTIONS=--openssl-legacy-provider if needed)
+Frontend only: npm run local
+Backend only: npm run server
+Run tests: npm test
+Build for production: npm build
+ -->
 
 
 
